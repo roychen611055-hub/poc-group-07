@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>良品衛浴｜訂單與行事曆管理系統原型</title>
+<!-- Driver.js：互動式產品導覽（需網路載入；離線時沿用內建導覽） -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.10.2/dist/driver.css">
+<style>
+:root{--bg:#f4f6f8;--panel:#fff;--ink:#17212b;--muted:#697786;--line:#e2e8ee;--blue:#376b8e;--green:#3f8062;--orange:#c27a2c;--purple:#7962a8;--red:#c44f4f;--shadow:0 8px 28px #2233440d}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink)}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{min-height:100vh}.topbar{height:68px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 26px;position:sticky;top:0;z-index:10}.brand{display:flex;gap:12px;align-items:center;font-weight:800}.brandmark{width:36px;height:36px;border-radius:12px;background:#1d4053;color:#fff;display:grid;place-items:center;font-size:18px}.brand small{display:block;color:var(--muted);font-size:11px;font-weight:500;margin-top:2px}.topright{display:flex;align-items:center;gap:10px}.demo-pill{font-size:12px;background:#fff2d8;color:#8b5b12;border:1px solid #f1dba9;padding:7px 10px;border-radius:999px;font-weight:700}.avatar{background:#e3edf4;color:#315a76;border-radius:50%;width:34px;height:34px;display:grid;place-items:center;font-weight:800}.layout{display:grid;grid-template-columns:228px minmax(0,1fr);min-height:calc(100vh - 68px)}aside{background:#fff;border-right:1px solid var(--line);padding:20px 12px}.side-label{font-size:11px;color:#94a0ab;letter-spacing:.08em;font-weight:800;padding:12px 12px 8px}.nav{display:flex;gap:12px;align-items:center;width:100%;padding:11px 12px;border:0;background:transparent;border-radius:10px;color:#536271;text-align:left;margin:2px 0;font-weight:600}.nav:hover,.nav.active{background:#eaf1f5;color:#234e67}.nav .ico{width:22px;text-align:center;font-size:17px}.nav .count{margin-left:auto;background:#f3e4df;color:#a44a3f;border-radius:99px;padding:2px 7px;font-size:11px}.aside-note{margin:24px 7px 0;padding:13px;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:12px;line-height:1.6}.aside-note strong{color:#344b5b;display:block;margin-bottom:4px}main{padding:27px;min-width:0;max-width:1600px;width:100%;margin:0 auto}.page{display:none}.page.active{display:block}.eyebrow{font-size:11px;letter-spacing:.1em;color:var(--blue);font-weight:800;text-transform:uppercase}.page-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin:7px 0 22px}.page-head h1{font-size:28px;letter-spacing:-.03em;margin:0 0 7px}.page-head p{margin:0;color:var(--muted);font-size:14px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 13px;font-weight:700;color:#435363;font-size:13px}.btn.primary{background:#254e65;color:white;border-color:#254e65}.btn.soft{background:#edf3f6;color:#315a76;border-color:#d8e4eb}.btn.danger{color:#b24343}.btn:disabled{opacity:.45;cursor:not-allowed}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:17px;box-shadow:var(--shadow)}.stat-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;font-weight:700}.stat-icon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:17px}.stat-num{font-size:29px;font-weight:800;letter-spacing:-.04em;margin:12px 0 5px}.stat-sub{font-size:12px;color:var(--muted)}.panel{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);min-width:0}.panel-head{padding:17px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}.panel-head h2{font-size:15px;margin:0}.panel-head p{margin:4px 0 0;color:var(--muted);font-size:12px}.panel-body{padding:18px}.dash-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:16px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:13px}th{text-align:left;color:#768391;font-size:11px;font-weight:800;background:#fafbfd;white-space:nowrap}th,td{padding:12px 14px;border-bottom:1px solid #edf0f3}td{vertical-align:middle}tr:last-child td{border-bottom:0}.order-link{color:#275d7c;font-weight:800;background:none;border:0;padding:0}.subtext{display:block;color:var(--muted);font-size:11px;margin-top:4px}.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border-radius:99px;font-size:11px;font-weight:800;white-space:nowrap;background:#edf1f4;color:#576574}.badge.green{background:#e4f3e9;color:#2d714b}.badge.orange{background:#fff0d9;color:#98611d}.badge.red{background:#fde9e7;color:#a73c3c}.badge.blue{background:#e7f0f7;color:#315f81}.badge.purple{background:#eee9f8;color:#6b5295}.toolbar{display:flex;gap:9px;flex-wrap:wrap;padding:14px 17px;border-bottom:1px solid var(--line);align-items:center}.field{border:1px solid #dce3e9;border-radius:8px;padding:9px 10px;background:#fff;color:#334252;min-width:0}.toolbar .field{font-size:12px}.search{min-width:220px;flex:1}.empty{padding:36px;text-align:center;color:var(--muted)}.island{position:relative;min-height:440px;overflow:hidden;border-radius:15px;background:linear-gradient(180deg,#d9edf5 0%,#eef7f8 56%,#dcefe7 100%);padding:20px}.island:before{content:"";position:absolute;width:600px;height:280px;background:#c0e1d5;left:50%;top:50%;transform:translate(-50%,-28%) rotate(-9deg);border-radius:48% 52% 43% 57%;box-shadow:0 20px 0 #a3cbbd,0 34px 25px #436d5b20}.island:after{content:"";position:absolute;left:0;right:0;bottom:0;height:72px;background:linear-gradient(180deg,#d7eee5aa,#c5e5d8aa)}.island-title{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:start}.island-title h2{margin:0;font-size:16px}.island-title p{margin:5px 0;color:#55717c;font-size:12px}.island-world{position:relative;z-index:2;height:320px;max-width:780px;margin:8px auto 0;}.building{position:absolute;width:145px;text-align:center;border:0;background:transparent;color:#263f4b;padding:0;transition:transform .18s}.building:hover{transform:translateY(-5px)}.building .structure{height:90px;position:relative;margin:0 auto 9px;width:92px;filter:drop-shadow(0 9px 5px #31564b22)}.roof{position:absolute;left:8px;right:8px;top:0;height:34px;background:#5d8797;clip-path:polygon(50% 0,100% 45%,100% 100%,0 100%,0 45%)}.walls{position:absolute;top:29px;left:14px;right:14px;height:57px;background:#f7faf9;border:2px solid #70959a;display:flex;gap:6px;justify-content:center;align-items:center}.walls span{width:13px;height:21px;background:#a9d5d8;border:2px solid #679ba2}.building.factory .roof{background:#568b70;clip-path:polygon(0 24%,70% 24%,70% 0,100% 0,100% 100%,0 100%)}.building.factory .walls{background:#e7f2e9}.building.truck .structure{height:58px;width:100px;margin-top:18px}.building.truck .roof{clip-path:none;border-radius:6px 6px 0 0;background:#d5a35f;height:31px;top:7px}.building.truck .walls{top:35px;left:4px;right:4px;height:25px;background:#f6d8a8;border:2px solid #c48d48}.building.truck .walls span{height:10px;width:17px;background:#fff}.building.finance .roof{background:#8575ae}.building.finance .walls{background:#f0ecf8;border-color:#9b8fc1}.building.calendar .roof{background:#477d9a}.building.calendar .walls{background:#e9f4f9}.building .b-label{font-size:13px;font-weight:800}.building .b-count{display:inline-block;background:#fff;border:1px solid #d6e5e5;border-radius:99px;padding:3px 7px;margin-top:4px;font-size:10px;color:#526a72;box-shadow:0 3px 8px #45665b12}.b-factory{left:5%;top:78px}.b-order{left:36%;top:16px}.b-truck{right:3%;top:84px}.b-finance{left:19%;top:198px}.b-calendar{right:20%;top:202px}.island-foot{position:relative;z-index:2;display:flex;gap:8px;flex-wrap:wrap}.island-foot span{background:#ffffffb8;border:1px solid #d5e5df;border-radius:99px;padding:7px 10px;font-size:11px;color:#4c6d61}.mini-list{display:flex;flex-direction:column;gap:0}.mini-item{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #edf0f3}.mini-item:last-child{border-bottom:0}.dot{width:9px;height:9px;border-radius:50%;margin-top:5px;flex:none}.mini-item strong{font-size:13px}.mini-item p{font-size:12px;color:var(--muted);margin:4px 0 0}.calendar-layout{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:16px}.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-left:1px solid var(--line);border-top:1px solid var(--line)}.cal-cell{min-height:104px;background:#fff;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:7px;min-width:0}.cal-cell.head{min-height:auto;background:#f8fafb;color:var(--muted);font-size:11px;font-weight:800}.cal-day{font-size:12px;font-weight:800}.cal-event{font-size:10px;line-height:1.35;margin-top:5px;padding:4px 5px;border-radius:5px;background:#e7f0f7;color:#315f81;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}.cal-event.overdue{background:#fde9e7;color:#a73c3c}.cal-event.ship{background:#fff0d9;color:#98611d}.cal-event.done{background:#e4f3e9;color:#2d714b}.modal-backdrop{position:fixed;inset:0;background:#17212b70;display:none;align-items:center;justify-content:center;padding:20px;z-index:30}.modal-backdrop.show{display:flex}.modal{width:min(760px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:16px;box-shadow:0 20px 80px #0003}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--line)}.modal-head h2{font-size:18px;margin:0}.modal-content{padding:22px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.form-group{display:flex;flex-direction:column;gap:6px}.form-group.full{grid-column:1/-1}.form-group label{font-size:12px;color:#596878;font-weight:800}.form-group input,.form-group select,.form-group textarea{width:100%;border:1px solid #dce3e9;border-radius:8px;padding:10px;background:#fff}.form-group textarea{min-height:76px;resize:vertical}.item-entry-table{min-width:650px}.item-entry-table th,.item-entry-table td{padding:8px 7px}.item-entry-table input,.item-entry-table select{width:100%;min-width:0;border:1px solid #dce3e9;border-radius:7px;padding:8px;background:#fff;color:#334252}.item-entry-table .remove-item{padding:6px 8px;color:#a43e3e}.batch-qty-input{width:110px;max-width:100%;padding:8px;border:1px solid #dce3e9;border-radius:7px}.actor-fields{display:grid;grid-template-columns:160px 1fr;gap:9px}.actor-fields select,.actor-fields input{min-width:0}.batch-item-title{font-weight:700}.batch-item-sub{font-size:11px;color:var(--muted);margin-top:3px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}.close{border:0;background:transparent;font-size:24px;color:#6c7884}.order-detail-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:18px}.detail-box{border:1px solid var(--line);border-radius:10px;padding:12px}.detail-box small{color:var(--muted);display:block;margin-bottom:5px}.detail-box strong{font-size:13px}.workflow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.workflow-card{border:1px solid var(--line);border-radius:12px;padding:13px}.workflow-card h3{font-size:13px;margin:0 0 8px}.workflow-card p{font-size:12px;color:var(--muted);line-height:1.5}.workflow-card .btn{width:100%;margin-top:5px}.toast{position:fixed;bottom:20px;right:20px;background:#203e4d;color:#fff;padding:12px 16px;border-radius:10px;box-shadow:0 8px 24px #0002;z-index:50;font-size:13px;display:none;max-width:calc(100vw - 40px)}.toast.show{display:block}.notice{padding:12px 14px;background:#fff7e8;border:1px solid #f0dfba;color:#815a21;border-radius:10px;font-size:12px;line-height:1.6}.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.rule-row{display:grid;grid-template-columns:1.3fr .8fr .8fr auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.switch{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted)}.switch input{accent-color:#315f81}.small{font-size:12px;color:var(--muted)}.footer-note{font-size:11px;color:#8a96a2;margin-top:16px}.mobile-nav{display:none}
+.ai-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:14px 0}.ai-kpi{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px}.ai-kpi strong{display:block;font-size:25px;margin-top:6px}.ai-alert-row td{vertical-align:top}.ai-reason{max-width:360px;line-height:1.5}.ai-recommendation{color:#536271;font-size:12px;line-height:1.5;margin-top:4px}.ai-tag{display:inline-block;border-radius:99px;padding:4px 7px;font-size:10px;font-weight:800;background:#eee9f8;color:#6b5295}.ai-test-result{padding:12px;border:1px solid var(--line);border-radius:10px;margin-top:10px;font-size:13px}.ai-test-result.pass{background:#e4f3e9;color:#2d714b}.ai-test-result.fail{background:#fde9e7;color:#a73c3c}@media(max-width:700px){.ai-summary{grid-template-columns:1fr}.ai-reason{max-width:240px}}
+@media(max-width:1000px){.layout{grid-template-columns:190px minmax(0,1fr)}main{padding:20px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.dash-grid,.calendar-layout{grid-template-columns:1fr}.calendar-layout>aside{display:block}.settings-grid{grid-template-columns:1fr}}
+@media(max-width:700px){.topbar{padding:0 14px}.topbar .demo-pill{display:none}.layout{display:block}aside{display:none}main{padding:16px}.page-head{display:block}.page-head .actions{margin-top:14px}.page-head h1{font-size:24px}.stats{gap:9px}.stat{padding:13px}.stat-num{font-size:24px}.dash-grid{grid-template-columns:1fr}.island{padding:14px}.island-world{transform:scale(.78);transform-origin:top center;margin-bottom:-58px;width:128%;margin-left:-14%}.building{width:110px}.b-factory{left:0;top:72px}.b-order{left:34%;top:8px}.b-truck{right:0;top:78px}.b-finance{left:12%;top:185px}.b-calendar{right:12%;top:188px}.workflow{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.form-group.full{grid-column:auto}.order-detail-grid{grid-template-columns:1fr 1fr}.rule-row{grid-template-columns:1fr 1fr}.mobile-nav{display:flex;position:sticky;bottom:0;z-index:12;background:#fff;border-top:1px solid var(--line);overflow:auto;padding:6px;gap:4px}.mobile-nav button{flex:1;min-width:72px;border:0;background:transparent;padding:8px 5px;border-radius:8px;color:#5a6875;font-size:11px}.mobile-nav button.active{background:#eaf1f5;color:#234e67}.mobile-nav span{display:block;font-size:17px;margin-bottom:3px}.cal-cell{min-height:72px;padding:4px}.cal-event{font-size:9px;padding:3px}.cal-day{font-size:11px}th,td{padding:10px}.search{min-width:100%}}
+
+/* 首次進入：三步驟功能導覽 */
+.tour-backdrop{position:fixed;inset:0;background:rgba(16,31,42,.68);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000}
+.tour-backdrop.show{display:flex}
+.tour-card{width:min(690px,100%);background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 24px 90px #0004}
+.tour-top{padding:22px 26px 16px;background:linear-gradient(135deg,#eaf2f6,#f7fafb);border-bottom:1px solid var(--line)}
+.tour-kicker{font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--blue)}
+.tour-title{font-size:25px;line-height:1.25;margin:8px 0 7px;letter-spacing:-.03em}
+.tour-lead{font-size:13px;color:var(--muted);line-height:1.7;margin:0}
+.tour-progress{display:flex;gap:8px;margin-top:18px}
+.tour-progress span{height:5px;border-radius:99px;background:#d7e0e6;flex:1}
+.tour-progress span.active{background:#376b8e}
+.tour-body{padding:22px 26px}
+.tour-feature-list{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+.tour-feature-list li{display:flex;gap:11px;align-items:flex-start;font-size:13px;line-height:1.65;color:#394a58}
+.tour-check{width:25px;height:25px;flex:none;border-radius:8px;background:#e7f0f7;color:#315f81;display:grid;place-items:center;font-weight:900}
+.tour-warning{margin-top:18px;padding:12px 14px;border-radius:10px;background:#fff6e6;border:1px solid #f0dfba;color:#80591e;font-size:12px;line-height:1.65}
+.tour-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:15px 26px 20px;border-top:1px solid var(--line)}
+.tour-step-label{font-size:12px;color:var(--muted);font-weight:700}
+.tour-actions{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:600px){.tour-backdrop{padding:10px}.tour-title{font-size:21px}.tour-top,.tour-body{padding:18px}.tour-bottom{padding:14px 18px 18px;align-items:flex-start;flex-direction:column}.tour-actions{width:100%}.tour-actions .btn{flex:1}}
+
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="brandmark">良</div><div>良品衛浴 <small>訂單與營運管理平台</small></div></div>
+  <div class="topright"><span class="demo-pill">● 本機示範模式</span><button class="btn" onclick="startFeatureTour()">ⓘ 互動導覽</button><button class="btn" onclick="showPage('notifications')">♧ 通知 <span id="topNoticeCount">3</span></button><div class="avatar">管</div></div>
+</header>
+<div class="layout">
+<aside>
+  <div class="side-label">工作總覽</div>
+  <button class="nav active" data-page="dashboard" onclick="showPage('dashboard')"><span class="ico">⌂</span>營運中心</button>
+  <button class="nav" data-page="orders" onclick="showPage('orders')"><span class="ico">▤</span>訂單管理 <span class="count" id="navOrderCount">8</span></button>
+  <button class="nav" data-page="calendar" onclick="showPage('calendar')"><span class="ico">▦</span>交期與行事曆</button>
+  <button class="nav" data-page="ai-alerts" onclick="showPage('ai-alerts')"><span class="ico">✦</span>AI 訂單異常預警 <span class="count" id="navAIAlertCount">0</span></button>
+  <div class="side-label">部門工作區</div>
+  <button class="nav" data-page="production" onclick="showPage('production')"><span class="ico">⚙</span>廠務／生產</button>
+  <button class="nav" data-page="shipping" onclick="showPage('shipping')"><span class="ico">⇢</span>出貨管理</button>
+  <button class="nav" data-page="finance" onclick="showPage('finance')"><span class="ico">＄</span>財務／請款</button>
+  <div class="side-label">系統管理</div>
+  <button class="nav" data-page="notifications" onclick="showPage('notifications')"><span class="ico">♧</span>通知中心</button>
+  <button class="nav" data-page="settings" onclick="showPage('settings')"><span class="ico">⚙</span>提醒與設定</button>
+  <div class="aside-note"><strong>原型使用提醒</strong>本頁資料只保存在目前瀏覽器。每個確認環節會要求輸入人員姓名並寫入操作紀錄；不同電腦不會同步，LINE 通知為模擬。</div>
+</aside>
+<main>
+<section class="page active" id="page-dashboard">
+  <div class="eyebrow">GOODLIFE · OPERATIONS</div>
+  <div class="page-head"><div><h1>營運中心</h1><p>掌握訂單進度、交期風險與各部門待辦事項。</p></div><div class="actions"><button class="btn" onclick="exportCSV()">↓ 匯出訂單 CSV</button><button class="btn primary" onclick="openOrderModal()">＋ 新增訂單</button></div></div>
+  <div class="stats">
+    <div class="stat"><div class="stat-top">進行中訂單 <span class="stat-icon" style="background:#e7f0f7">▤</span></div><div class="stat-num" id="statActive">8</div><div class="stat-sub">尚未完成結案</div></div>
+    <div class="stat"><div class="stat-top">待生產 <span class="stat-icon" style="background:#e4f3e9">⚙</span></div><div class="stat-num" id="statProduction">3</div><div class="stat-sub">等待廠務處理</div></div>
+    <div class="stat"><div class="stat-top">待出貨 <span class="stat-icon" style="background:#fff0d9">⇢</span></div><div class="stat-num" id="statShipping">2</div><div class="stat-sub">生產完成待安排</div></div>
+    <div class="stat"><div class="stat-top">交期風險 <span class="stat-icon" style="background:#fde9e7">!</span></div><div class="stat-num" id="statOverdue">1</div><div class="stat-sub">逾期或即將到期</div></div>
+  </div>
+  <div class="dash-grid">
+    <div class="panel">
+      <div class="island">
+        <div class="island-title"><div><h2>良品營運島</h2><p>點選建築，進入部門工作區</p></div><span class="badge green">● 系統運作中</span></div>
+        <div class="island-world">
+          <button class="building factory b-factory" onclick="showPage('production')"><div class="structure"><div class="roof"></div><div class="walls"><span></span><span></span><span></span></div></div><div class="b-label">生產工廠</div><span class="b-count" id="islandProduction">3 件待生產</span></button>
+          <button class="building b-order" onclick="showPage('orders')"><div class="structure"><div class="roof"></div><div class="walls"><span></span><span></span><span></span></div></div><div class="b-label">訂單中心</div><span class="b-count" id="islandOrders">8 張進行中</span></button>
+          <button class="building truck b-truck" onclick="showPage('shipping')"><div class="structure"><div class="roof"></div><div class="walls"><span></span><span></span></div></div><div class="b-label">出貨碼頭</div><span class="b-count" id="islandShipping">2 件待出貨</span></button>
+          <button class="building finance b-finance" onclick="showPage('finance')"><div class="structure"><div class="roof"></div><div class="walls"><span></span><span></span><span></span></div></div><div class="b-label">財務中心</div><span class="b-count" id="islandFinance">2 件待請款</span></button>
+          <button class="building calendar b-calendar" onclick="showPage('calendar')"><div class="structure"><div class="roof"></div><div class="walls"><span></span><span></span><span></span></div></div><div class="b-label">交期行事曆</div><span class="b-count">查看排程</span></button>
+        </div>
+        <div class="island-foot"><span>◷ 交期優先排序</span><span>↗ 跨部門流程</span><span>♧ 通知為示範</span></div>
+      </div>
+      <div class="panel-head"><div><h2>近期訂單</h2><p>依交期排序，點選編號查看完整流程</p></div><button class="btn" onclick="showPage('orders')">全部訂單 →</button></div>
+      <div class="table-wrap"><table><thead><tr><th>訂單／客戶</th><th>交期</th><th>目前進度</th><th>優先級</th></tr></thead><tbody id="recentOrders"></tbody></table></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="panel"><div class="panel-head"><div><h2>部門待辦</h2><p>待處理工作即時彙整（示範）</p></div></div><div class="panel-body"><div class="mini-list" id="departmentTasks"></div></div></div>
+      <div class="panel"><div class="panel-head"><div><h2>近期提醒</h2><button class="btn" onclick="showPage('notifications')">查看全部</button></div></div><div class="panel-body"><div class="mini-list" id="recentNotices"></div></div></div>
+    </div>
+  </div>
+  <div class="panel" style="margin-top:16px">
+    <div class="panel-head"><div><h2>✦ AI 訂單異常預警</h2><p>先以透明的規則評分驗證風險辨識；結果需由人員確認。</p></div><div class="actions"><span class="ai-tag">POC 規則引擎</span><button class="btn primary" onclick="showPage('ai-alerts')">查看完整分析 →</button></div></div>
+    <div class="panel-body"><div id="dashboardAIAlerts" class="mini-list"><div class="empty">分析中…</div></div></div>
+  </div>
+</section>
+
+<section class="page" id="page-ai-alerts">
+  <div class="eyebrow">AI POC · ORDER RISK DETECTION</div>
+  <div class="page-head"><div><h1>AI 訂單異常預警</h1><p>根據交期、優先級、生產與出貨進度，找出需要優先人工確認的訂單。</p></div><div class="actions"><button class="btn" onclick="runAITests()">執行規則自測</button><button class="btn primary" onclick="renderAIAlerts();toast('已重新分析目前訂單')">重新分析</button></div></div>
+  <div class="notice"><strong>POC 透明說明：</strong>目前版本使用可解釋的本機規則與風險評分，不會把訂單資料送到外部 AI，也尚未連接生成式 AI 模型。此階段先驗證風險規則、提醒品質與人員工作流程；測試通過後再評估接入企業核准的 AI 模型。</div>
+  <div class="ai-summary"><div class="ai-kpi"><span class="small">高風險</span><strong id="aiHighCount">0</strong><span class="small">需優先處理</span></div><div class="ai-kpi"><span class="small">中風險</span><strong id="aiMediumCount">0</strong><span class="small">建議今日確認</span></div><div class="ai-kpi"><span class="small">目前分析訂單</span><strong id="aiOrderCount">0</strong><span class="small">已排除結案／取消</span></div></div>
+  <div class="panel"><div class="toolbar"><input class="field search" id="aiSearch" placeholder="搜尋訂單編號、客戶或異常原因…" oninput="renderAIAlerts()"><select class="field" id="aiRiskFilter" onchange="renderAIAlerts()"><option value="all">所有風險</option><option value="high">高風險</option><option value="medium">中風險</option><option value="low">低風險</option></select><select class="field" id="aiTypeFilter" onchange="renderAIAlerts()"><option value="all">所有異常類型</option><option value="逾期未完成">逾期未完成</option><option value="交期逼近／進度落後">交期逼近／進度落後</option><option value="急件尚未啟動">急件尚未啟動</option><option value="已生產待出貨">已生產待出貨</option><option value="數量資料異常">數量資料異常</option><option value="出貨後待請款">出貨後待請款</option></select></div><div class="table-wrap"><table><thead><tr><th>風險</th><th>訂單／客戶</th><th>異常原因與證據</th><th>建議處理</th><th>分數</th><th>操作</th></tr></thead><tbody id="aiAlertBody"></tbody></table></div><div class="panel-body small" id="aiAlertFootnote">風險分數是 POC 規則分數，不代表統計模型的機率。</div></div>
+  <div class="panel" style="margin-top:16px"><div class="panel-head"><div><h2>規則自測結果</h2><p>使用合成測試案例，不會修改正式訂單資料。</p></div></div><div class="panel-body" id="aiTestResults"><p class="small">尚未執行自測。建議先執行，確認逾期、急件、進度落後與結案排除規則。</p></div></div>
+</section>
+
+<section class="page" id="page-orders">
+  <div class="eyebrow">ORDER MANAGEMENT</div>
+  <div class="page-head"><div><h1>訂單管理</h1><p>建立訂單、管理品項、查看交期與跨部門狀態。</p></div><div class="actions"><button class="btn" onclick="document.getElementById('excelFile').click()">↑ 匯入 CSV</button><input id="excelFile" type="file" accept=".csv,text/csv" hidden onchange="importCSV(event)"><button class="btn" onclick="exportCSV()">↓ 匯出 CSV</button><button class="btn primary" onclick="openOrderModal()">＋ 新增訂單</button></div></div>
+  <div class="panel">
+    <div class="toolbar"><input class="field search" id="orderSearch" placeholder="搜尋訂單編號、客戶、品名…" oninput="renderOrders()"><select class="field" id="statusFilter" onchange="renderOrders()"><option value="">所有進度</option><option>待確認</option><option>待生產</option><option>生產中</option><option>待出貨</option><option>部分出貨</option><option>待請款</option><option>已結案</option><option>逾期</option></select><select class="field" id="priorityFilter" onchange="renderOrders()"><option value="">所有優先級</option><option>特急</option><option>急件</option><option>一般</option></select></div>
+    <div class="table-wrap"><table><thead><tr><th>訂單編號／客戶</th><th>品項／數量</th><th>交期</th><th>生產</th><th>出貨</th><th>請款</th><th>狀態</th><th>操作</th></tr></thead><tbody id="ordersBody"></tbody></table></div>
+    <div class="panel-body small" id="orderCountNote"></div>
+  </div>
+  <p class="footer-note">原型限制：CSV 匯入示範單一品項格式；正式版應使用標準 Excel 範本，並支援一張訂單多品項及匯入錯誤報告。</p>
+</section>
+
+<section class="page" id="page-production">
+  <div class="eyebrow">PRODUCTION WORKSPACE</div>
+  <div class="page-head"><div><h1>廠務／生產管理</h1><p>依交期及優先級排序，支援整單完成與分批回報。</p></div><div class="actions"><button class="btn" onclick="showPage('calendar')">查看排程</button></div></div>
+  <div class="notice">操作提示：整單完成會把已生產數量補足至訂購數量；分批回報可輸入本次完成數量。實際出貨數量不得超過已生產且尚未出貨的數量。</div>
+  <div class="panel" style="margin-top:16px"><div class="toolbar"><input class="field search" id="productionSearch" placeholder="搜尋訂單或客戶…" oninput="renderProduction()"><select class="field" id="productionMode"><option value="all">所有未結案生產訂單</option><option value="pending">待生產</option><option value="doing">生產中</option><option value="partial">部分完成</option></select></div><div class="table-wrap"><table><thead><tr><th>訂單／品項</th><th>訂購數量</th><th>已生產</th><th>交期</th><th>注意事項</th><th>回報操作</th></tr></thead><tbody id="productionBody"></tbody></table></div></div>
+</section>
+
+<section class="page" id="page-shipping">
+  <div class="eyebrow">SHIPPING WORKSPACE</div>
+  <div class="page-head"><div><h1>出貨管理</h1><p>顯示已生產且尚有可出貨數量的訂單。</p></div></div>
+  <div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr))"><div class="stat"><div class="stat-top">待安排</div><div class="stat-num" id="shipPending">0</div><div class="stat-sub">可建立出貨紀錄</div></div><div class="stat"><div class="stat-top">已部分出貨</div><div class="stat-num" id="shipPartial">0</div><div class="stat-sub">仍有剩餘數量</div></div><div class="stat"><div class="stat-top">已完成出貨</div><div class="stat-num" id="shipDone">0</div><div class="stat-sub">等待財務請款</div></div></div>
+  <div class="panel"><div class="toolbar"><input class="field search" id="shippingSearch" placeholder="搜尋訂單或客戶…" oninput="renderShipping()"></div><div class="table-wrap"><table><thead><tr><th>訂單／客戶</th><th>訂購數量</th><th>可出貨數量</th><th>交期</th><th>出貨狀態</th><th>出貨操作</th></tr></thead><tbody id="shippingBody"></tbody></table></div></div>
+</section>
+
+<section class="page" id="page-finance">
+  <div class="eyebrow">FINANCE WORKSPACE</div>
+  <div class="page-head"><div><h1>財務／請款管理</h1><p>依出貨狀態彙整待請款訂單，完成請款後更新結案狀態。</p></div></div>
+  <div class="notice">此原型只示範請款狀態，不會建立正式會計憑證，也不會向任何會計系統傳送資料。</div>
+  <div class="panel" style="margin-top:16px"><div class="toolbar"><input class="field search" id="financeSearch" placeholder="搜尋訂單或客戶…" oninput="renderFinance()"><select class="field" id="financeFilter" onchange="renderFinance()"><option value="open">待處理請款</option><option value="all">所有訂單</option><option value="done">目前無待請款</option></select></div><div class="table-wrap"><table><thead><tr><th>訂單／客戶</th><th>出貨單號</th><th>出貨狀態</th><th>依已出貨數量計算之未稅請款金額</th><th>請款狀態</th><th>操作</th></tr></thead><tbody id="financeBody"></tbody></table></div></div>
+</section>
+
+<section class="page" id="page-calendar">
+  <div class="eyebrow">CALENDAR & DEADLINES</div>
+  <div class="page-head"><div><h1>交期與行事曆</h1><p>依交期查看訂單；點選事件可開啟訂單明細。</p></div><div class="actions"><button class="btn" onclick="changeMonth(-1)">← 上個月</button><button class="btn" onclick="goToday()">今天</button><button class="btn" onclick="changeMonth(1)">下個月 →</button></div></div>
+  <div class="calendar-layout"><div class="panel"><div class="panel-head"><h2 id="calendarTitle">2026 年 10 月</h2><span class="badge blue">交期檢視</span></div><div class="cal-grid" id="calendarGrid"></div></div><div class="panel"><div class="panel-head"><div><h2>日期事件</h2><p id="selectedDateLabel">選擇日期</p></div></div><div class="panel-body"><div id="selectedDateEvents" class="mini-list"></div></div></div></div>
+  <p class="footer-note">原型以訂單交期為主；正式版可加入獨立生產排程、出貨預約與請款提醒事件。</p>
+</section>
+
+<section class="page" id="page-notifications">
+  <div class="eyebrow">NOTIFICATION CENTER</div>
+  <div class="page-head"><div><h1>通知中心</h1><p>查看訂單異動、交期風險與部門交接通知。</p></div><div class="actions"><button class="btn" onclick="markAllRead()">全部標示已讀</button><button class="btn primary" onclick="simulateReminder()">測試提醒</button></div></div>
+  <div class="notice">目前為本機示範通知。LINE 群組通知尚未連接官方帳號，點選測試提醒只會在本頁建立模擬紀錄。</div>
+  <div class="panel" style="margin-top:16px"><div class="panel-head"><h2>通知紀錄</h2><span class="badge orange">模擬發送</span></div><div class="panel-body"><div class="mini-list" id="notificationList"></div></div></div>
+</section>
+
+<section class="page" id="page-settings">
+  <div class="eyebrow">SYSTEM SETTINGS</div>
+  <div class="page-head"><div><h1>提醒與系統設定</h1><p>設定交期提醒規則及通知對象（本機示範）。</p></div><div class="actions"><button class="btn primary" onclick="saveSettings()">儲存設定</button></div></div>
+  <div class="settings-grid">
+    <div class="panel"><div class="panel-head"><div><h2>交期提醒規則</h2><p>可調整提醒提前天數與頻率</p></div></div><div class="panel-body">
+      <div class="form-group"><label>提前提醒天數（以逗號分隔）</label><input class="field" id="reminderDays" value="3,1,0" placeholder="例如：7,3,1,0"></div>
+      <div class="form-group" style="margin-top:13px"><label>每日提醒時間</label><input class="field" id="reminderTime" type="time" value="09:00"></div>
+      <div class="form-group" style="margin-top:13px"><label>逾期提醒頻率</label><select class="field" id="overdueFrequency"><option value="daily">每日一次</option><option value="workday">每個工作日一次</option><option value="weekly">每週一次</option></select></div>
+      <div style="margin-top:16px" class="switch"><input type="checkbox" id="overdueEnabled" checked><label for="overdueEnabled">啟用逾期提醒</label></div>
+    </div></div>
+    <div class="panel"><div class="panel-head"><div><h2>通知對象</h2><p>正式版需設定實際 LINE 群組與權限</p></div></div><div class="panel-body">
+      <div class="form-group"><label>收發部門</label><input class="field" id="groupReceive" value="收發部門群組"></div>
+      <div class="form-group" style="margin-top:11px"><label>廠務部門</label><input class="field" id="groupProduction" value="廠務部門群組"></div>
+      <div class="form-group" style="margin-top:11px"><label>出貨部門</label><input class="field" id="groupShipping" value="出貨部門群組"></div>
+      <div class="form-group" style="margin-top:11px"><label>財務部門</label><input class="field" id="groupFinance" value="財務部門群組"></div>
+      <div class="form-group" style="margin-top:11px"><label>主管群組</label><input class="field" id="groupManager" value="主管群組"></div>
+      <div style="margin-top:15px" class="switch"><input type="checkbox" id="lineEnabled"><label for="lineEnabled">啟用 LINE 通知（原型僅模擬，不會實際發送）</label></div>
+    </div></div>
+  </div>
+  <div class="panel" style="margin-top:16px"><div class="panel-head"><h2>示範資料管理</h2></div><div class="panel-body"><p class="small">資料儲存在目前瀏覽器的 localStorage。清除瀏覽器網站資料可能會移除示範訂單。建議先匯出 CSV 備份。</p><div class="actions"><button class="btn" onclick="exportCSV()">匯出訂單 CSV</button><button class="btn danger" onclick="resetDemo()">重設示範資料</button></div></div></div>
+</section>
+</main>
+</div>
+<nav class="mobile-nav">
+<button class="active" data-page="dashboard" onclick="showPage('dashboard')"><span>⌂</span>總覽</button>
+<button data-page="orders" onclick="showPage('orders')"><span>▤</span>訂單</button>
+<button data-page="production" onclick="showPage('production')"><span>⚙</span>生產</button>
+<button data-page="shipping" onclick="showPage('shipping')"><span>⇢</span>出貨</button>
+<button data-page="finance" onclick="showPage('finance')"><span>＄</span>財務</button>
+<button data-page="calendar" onclick="showPage('calendar')"><span>▦</span>行事曆</button>
+</nav>
+</div>
+
+<div class="modal-backdrop" id="orderModal" onclick="if(event.target===this)closeOrderModal()"><div class="modal"><div class="modal-head"><h2 id="orderModalTitle">新增訂單</h2><button class="close" onclick="closeOrderModal()">×</button></div><div class="modal-content"><form id="orderForm" onsubmit="saveOrder(event)"><input type="hidden" id="editOrderId"><div class="form-grid">
+<div class="form-group full"><label>填寫／確認單位與訊息 *</label><div class="actor-fields"><select id="fOperatorDept" required><option value="">選擇單位</option><option value="訂單組" selected>訂單組</option><option value="廠務組">廠務組</option><option value="出貨組">出貨組</option><option value="財務組">財務組</option></select><input id="fOperator" required placeholder="請填寫人員姓名或確認訊息"></div></div>
+<div class="form-group"><label>訂單編號 *</label><input id="fOrderNo" required placeholder="例如 LP-202610-009"></div>
+<div class="form-group"><label>客戶名稱 *</label><input id="fCustomer" required placeholder="客戶或經銷商"></div>
+<div class="form-group"><label>訂單日期 *</label><input id="fOrderDate" type="date" required></div>
+
+<div class="form-group full"><label>訂單品項 *</label><div class="small">同一張訂單可新增多個品項；每列填寫產品編號、名稱、規格、數量與單位。</div><div class="table-wrap" style="border:1px solid var(--line);border-radius:10px;margin-top:4px"><table class="item-entry-table"><thead><tr><th style="min-width:115px">產品編號</th><th style="min-width:150px">產品名稱 *</th><th style="min-width:150px">規格／型號</th><th style="min-width:90px">數量 *</th><th style="min-width:85px">單位</th><th style="min-width:115px">未稅單價</th><th style="min-width:145px">品項交期 *</th><th style="min-width:100px">優先級</th><th style="width:55px">操作</th></tr></thead><tbody id="orderItemsBody"></tbody></table></div><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap"><button type="button" class="btn soft" onclick="addOrderItemRow()">＋ 新增品項</button><strong id="orderItemsTotal" class="small">品項數：1｜總數量：1</strong></div></div>
+
+<div class="form-group full"><label>注意事項</label><textarea id="fNotes" placeholder="生產、包裝、檢驗或出貨注意事項"></textarea></div>
+<div class="form-group full"><label>客戶訂單號（選填）</label><input id="fCustomerRef" placeholder="客戶原始訂單編號"></div>
+</div><div class="modal-actions"><button type="button" class="btn" onclick="closeOrderModal()">取消</button><button class="btn primary" type="submit">儲存訂單</button></div></form></div></div></div>
+
+<div class="modal-backdrop" id="detailModal" onclick="if(event.target===this)closeDetail()"><div class="modal"><div class="modal-head"><h2 id="detailTitle">訂單明細</h2><button class="close" onclick="closeDetail()">×</button></div><div class="modal-content" id="detailContent"></div></div></div>
+<div class="modal-backdrop" id="shipModal" onclick="if(event.target===this)closeShipModal()"><div class="modal"><div class="modal-head"><h2>建立出貨紀錄</h2><button class="close" onclick="closeShipModal()">×</button></div><div class="modal-content"><form id="shipForm" onsubmit="saveShipment(event)"><input type="hidden" id="shipOrderId"><div class="form-grid"><div class="form-group full"><label>填寫／確認單位與訊息 *</label><div class="actor-fields"><select id="shipOperatorDept" required><option value="">選擇單位</option><option value="訂單組">訂單組</option><option value="廠務組">廠務組</option><option value="出貨組" selected>出貨組</option><option value="財務組">財務組</option></select><input id="shipOperator" required placeholder="請填寫人員姓名或確認訊息"></div></div><div class="form-group"><label>出貨單號 *</label><input id="shipNo" required placeholder="例如 DN-202610-001"></div><div class="form-group"><label>出貨日期 *</label><input id="shipDate" type="date" required></div><div class="form-group full"><label>本次各品項出貨數量及未稅金額</label><div class="table-wrap"><table class="item-entry-table"><thead><tr><th>品項／規格</th><th>已生產</th><th>已出貨</th><th>可出貨</th><th>本次出貨量</th><th>未稅單價</th><th>未稅小計</th></tr></thead><tbody id="shipItemsBody"></tbody></table></div></div><div class="form-group"><label>本次出貨總數量</label><input id="shipQty" readonly value="0"></div><div class="form-group"><label>本次出貨未稅總金額（NT$）</label><input id="shipAmount" readonly value="0.00"></div><div class="form-group"><label>備註</label><input id="shipNotes" placeholder="物流或包裝備註"></div></div><div class="modal-actions"><button type="button" class="btn" onclick="closeShipModal()">取消</button><button type="submit" class="btn primary">確認出貨</button></div></form></div></div></div>
+<div class="modal-backdrop" id="batchModal" onclick="if(event.target===this)closeBatchModal()"><div class="modal" style="width:min(980px,100%)"><div class="modal-head"><h2>分批生產回報</h2><button class="close" onclick="closeBatchModal()">×</button></div><div class="modal-content"><form id="batchForm" onsubmit="saveBatch(event)"><input type="hidden" id="batchOrderId"><div id="batchOrderSummary" class="notice" style="margin-bottom:14px"></div><div class="form-grid"><div class="form-group full"><label>填寫／確認單位與訊息 *</label><div class="actor-fields"><select id="batchOperatorDept" required><option value="">選擇單位</option><option value="訂單組">訂單組</option><option value="廠務組" selected>廠務組</option><option value="出貨組">出貨組</option><option value="財務組">財務組</option></select><input id="batchOperator" required placeholder="請填寫人員姓名或確認訊息"></div></div><div class="form-group"><label>本次完成日期 *</label><input id="batchDate" type="date" required></div><div class="form-group"><label>本次回報總數量</label><input id="batchQtyTotal" readonly value="0"></div><div class="form-group full"><label>各品項分批回報</label><div class="table-wrap" style="border:1px solid var(--line);border-radius:10px"><table class="item-entry-table"><thead><tr><th>品項／規格</th><th>訂購數量</th><th>已生產</th><th>本次交貨／完成數量</th><th>品項交期</th><th>優先級</th></tr></thead><tbody id="batchItemsBody"></tbody></table></div><div class="small" style="margin-top:7px">可同時回報多個品項；未完成的品項數量留空或填 0。各品項本次回報數量不得超過其剩餘待生產數量。</div></div><div class="form-group full"><label>備註</label><input id="batchNotes" placeholder="批次、檢驗或異常說明"></div></div><div class="modal-actions"><button type="button" class="btn" onclick="closeBatchModal()">取消</button><button type="submit" class="btn primary">儲存回報</button></div></form></div></div></div>
+
+<div class="tour-backdrop" id="featureTour" role="dialog" aria-modal="true" aria-labelledby="tourTitle">
+  <div class="tour-card">
+    <div class="tour-top">
+      <div class="tour-kicker" id="tourKicker">GOODLIFE ORDER HUB · QUICK GUIDE</div>
+      <h2 class="tour-title" id="tourTitle">歡迎使用良品衛浴訂單與營運管理平台</h2>
+      <p class="tour-lead" id="tourLead">透過 3 個步驟，快速認識系統的主要功能。</p>
+      <div class="tour-progress" aria-label="導覽進度"><span id="tourBar1" class="active"></span><span id="tourBar2"></span><span id="tourBar3"></span></div>
+    </div>
+    <div class="tour-body">
+      <ul class="tour-feature-list" id="tourFeatures"></ul>
+      <div class="tour-warning" id="tourWarning">本機 HTML 示範版：資料只保存在目前瀏覽器，不會與其他使用者或電腦同步；通知及 LINE 功能僅為模擬。</div>
+    </div>
+    <div class="tour-bottom">
+      <span class="tour-step-label" id="tourStepLabel">步驟 1／3</span>
+      <div class="tour-actions">
+        <button class="btn" id="tourSkip" onclick="closeFeatureTour(true)">略過介紹</button>
+        <button class="btn" id="tourPrev" onclick="moveFeatureTour(-1)" disabled>上一步</button>
+        <button class="btn primary" id="tourNext" onclick="moveFeatureTour(1)">下一步</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/driver.js@1.10.2/dist/driver.js.iife.js"></script>
+<script>
+const TODAY = new Date(); TODAY.setHours(0,0,0,0);
+const iso = d => {const x=new Date(d);return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`};
+const addDays=(d,n)=>{let x=new Date(d);x.setDate(x.getDate()+n);return iso(x)};
+const todayISO=iso(TODAY);
+const seedOrders=[];
+// 一次性清除既有示範／已輸入訂單，讓此版本以空白訂單清單開始；之後新增的訂單仍會正常保存。
+const ORDER_CLEAR_MIGRATION_KEY='gl_order_data_cleared_v1';
+try{
+  if(localStorage.getItem(ORDER_CLEAR_MIGRATION_KEY)!=='1'){
+    localStorage.removeItem('gl_orders_multi_v2');
+    localStorage.setItem(ORDER_CLEAR_MIGRATION_KEY,'1');
+  }
+}catch(e){}
+let orders;
+try{orders=JSON.parse(localStorage.getItem('gl_orders_multi_v2'))||[]}catch(e){orders=[]}
+let notices;
+try{notices=JSON.parse(localStorage.getItem('gl_notices_multi_v2'))||[
+{id:1,title:'訂單即將到期',body:'LP-202610-003｜大立室內設計，交期即將到來。',time:'今天 09:00',group:'廠務部門群組',read:false,type:'warning'},
+{id:2,title:'出貨完成，請處理請款',body:'LP-202610-006｜出貨單 DN-202610-006。',time:'今天 08:45',group:'財務部門群組',read:false,type:'info'},
+{id:3,title:'訂單逾期提醒',body:'LP-202610-002｜永信工程，請確認延誤原因及新交期。',time:'今天 08:30',group:'主管群組',read:false,type:'danger'}
+]}catch(e){notices=[]}
+let settings={days:'3,1,0',time:'09:00',freq:'daily',overdue:true,groups:{receive:'收發部門群組',production:'廠務部門群組',shipping:'出貨部門群組',finance:'財務部門群組',manager:'主管群組'},line:false};
+let calendarMonth=new Date(TODAY.getFullYear(),TODAY.getMonth(),1),selectedDate=todayISO;
+let toastTimer;
+function persist(){try{localStorage.setItem('gl_orders_multi_v2',JSON.stringify(orders));localStorage.setItem('gl_notices_multi_v2',JSON.stringify(notices))}catch(e){}}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function fmtDate(d){if(!d)return '—';let [y,m,day]=d.split('-');return `${y}/${m}/${day}`}
+function dateDiff(d){return Math.round((new Date(d+'T00:00:00')-TODAY)/86400000)}
+function shipped(o){return (o.shipments||[]).reduce((s,x)=>s+Number(x.qty||0),0)||Number(o.shipped||0)}
+function produced(o){return (o.batches||[]).reduce((s,x)=>s+Number(x.qty||0),0)||Number(o.produced||0)}
+function orderItems(o){return (o.items&&o.items.length?o.items:[{productCode:o.productCode||'',product:o.product||'',spec:o.spec||'',qty:Number(o.qty)||0,unit:o.unit||'個',due:o.due,priority:o.priority||'一般'}])}
+function shippedForItem(o,index){return (o.shipments||[]).reduce((sum,sh)=>sum+(sh.items?.length?sh.items.filter(x=>Number(x.itemIndex)===index).reduce((n,x)=>n+Number(x.qty||0),0):(index===0?Number(sh.qty||0):0)),0)}
+function money(n){return Number(n||0).toLocaleString('zh-TW',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function updateShipTotals(){let qty=0,amount=0;document.querySelectorAll('#shipItemsBody tr').forEach(row=>{let q=Number(row.querySelector('.ship-item-qty').value)||0,price=Number(row.dataset.price)||0;qty+=q;amount+=q*price;row.querySelector('.ship-subtotal').textContent='NT$ '+money(q*price)});document.getElementById('shipQty').value=qty;document.getElementById('shipAmount').value=money(amount)}
+function producedForItem(o,index){let bs=o.batches||[];let itemSpecific=bs.filter(b=>Number(b.itemIndex)===index).reduce((sum,b)=>sum+Number(b.qty||0),0);let legacy=index===0?bs.filter(b=>b.itemIndex===undefined||b.itemIndex===null).reduce((sum,b)=>sum+Number(b.qty||0),0):0;if(itemSpecific+legacy>0)return itemSpecific+legacy;if(!bs.length&&index===0)return Number(o.produced||0);return 0}
+
+function remaining(o){return Math.max(0,Number(o.qty)-shipped(o))}
+function available(o){return Math.max(0,produced(o)-shipped(o))}
+function isClosed(o){const items=orderItems(o);const allShipped=items.every((it,i)=>shippedForItem(o,i)>=Number(it.qty||0));return o.production==='已完成'&&allShipped&&pendingInvoiceAmount(o).items.length===0&&(o.invoiceRecords||[]).length>0}
+function effectiveStatus(o){if(o.cancelled)return '已取消';if(isClosed(o))return '已結案';if(o.due<todayISO&&!isClosed(o))return '逾期';if(pendingInvoiceAmount(o).items.length>0)return '待請款';if(shipped(o)>0&&shipped(o)<o.qty)return '部分出貨';if(shipped(o)>=o.qty)return '待請款';if(produced(o)>=o.qty)return '待出貨';if(produced(o)>0)return '生產中';if(o.production==='待確認')return '待確認';return '待生產'}
+function badge(text){let c='';if(['已完成','已出貨','已請款','已結案'].includes(text))c='green';else if(['逾期','特急','異常待處理'].includes(text))c='red';else if(['急件','待出貨','待請款','部分出貨','部分已請款／有待請款'].includes(text))c='orange';else if(['生產中','待確認'].includes(text))c='blue';else if(text==='請款中')c='purple';return `<span class="badge ${c}">${esc(text)}</span>`}
+function priorityRank(p){return p==='特急'?0:p==='急件'?1:2}
+function sortedOrders(arr=orders){return [...arr].sort((a,b)=>{let dr=dateDiff(a.due),er=dateDiff(b.due);return priorityRank(a.priority)-priorityRank(b.priority)||dr-er})}
+function saveNotice(title,body,group,type='info'){notices.unshift({id:Date.now()+Math.random(),title,body,time:'剛剛',group,read:false,type});notices=notices.slice(0,100);persist();updateNoticeCount()}
+function toast(msg){let t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3000)}
+function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+name));document.querySelectorAll('.nav,.mobile-nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===name));if(name==='dashboard')renderDashboard();if(name==='orders')renderOrders();if(name==='production')renderProduction();if(name==='shipping')renderShipping();if(name==='finance')renderFinance();if(name==='calendar')renderCalendar();if(name==='ai-alerts')renderAIAlerts();if(name==='notifications')renderNotifications();if(name==='settings')loadSettings();window.scrollTo({top:0,behavior:'smooth'})}
+function updateNoticeCount(){let n=notices.filter(x=>!x.read).length;document.getElementById('topNoticeCount').textContent=n;document.getElementById('topNoticeCount').parentElement.classList.toggle('soft',n===0)}
+function analyzeOrderRisks(source=orders){
+ const results=[];
+ source.forEach(o=>{
+  if(o.cancelled||isClosed(o))return;
+  const days=dateDiff(o.due),qty=Number(o.qty)||0,prod=produced(o),ship=shipped(o),avail=available(o),scoreParts=[];
+  const add=(type,points,reason,action)=>scoreParts.push({type,points,reason,action});
+  if(qty>0&&(prod>qty||ship>qty||ship>prod))add('數量資料異常',45,`數量不一致：訂購 ${qty}、已生產 ${prod}、已出貨 ${ship}。`,'請核對生產回報、出貨紀錄與訂單數量；確認前不要再新增出貨。');
+  if(days<0 && (ship<qty || prod<qty || pendingInvoiceAmount(o).items.length>0))add('逾期未完成',60,`交期已逾期 ${Math.abs(days)} 天；生產 ${prod}/${qty}、出貨 ${ship}/${qty}。`,'請負責人確認延誤原因、可交付日期與客戶溝通安排。');
+  if(days>=0 && days<=2 && qty>0 && prod/qty<0.5 && ship<qty)add('交期逼近／進度落後',35,`距交期 ${days} 天，生產進度 ${Math.round(prod/qty*100)}%。`,'請廠務確認產能、物料與排程，必要時升級主管協調。');
+  if((o.priority==='急件'||o.priority==='特急')&&prod===0&&days<=7)add('急件尚未啟動',25,`${o.priority}訂單尚無生產完成數量，距交期 ${days<0?'已逾期 '+Math.abs(days)+' 天':days+' 天'}。`,'請確認是否已排入生產、物料是否齊備，以及承諾交期是否仍可達成。');
+  if(prod>=qty&&ship<qty&&days<=3)add('已生產待出貨',20,`已生產 ${prod}/${qty}，仍有 ${qty-ship} 待出貨；距交期 ${days<0?'逾期 '+Math.abs(days)+' 天':days+' 天'}。`,'請出貨部門確認包裝、運輸安排與可出貨日期。');
+  if(ship>=qty&&pendingInvoiceAmount(o).items.length>0 && days<0)add('出貨後待請款',15,`訂單已全數出貨，但仍有待請款項目；交期已過 ${Math.abs(days)} 天。`,'請財務確認請款資料是否齊全，並核對已出貨數量與金額。');
+  if(!scoreParts.length)return;
+  const score=Math.min(100,scoreParts.reduce((n,x)=>n+x.points,0));
+  const level=score>=60?'high':score>=30?'medium':'low';
+  results.push({id:o.id,no:o.no,customer:o.customer,score,level,types:[...new Set(scoreParts.map(x=>x.type))],reasons:scoreParts.map(x=>x.reason),actions:[...new Set(scoreParts.map(x=>x.action))],due:o.due,days});
+ });
+ return results.sort((a,b)=>b.score-a.score||a.days-b.days);
+}
+function riskLabel(level){return level==='high'?'高風險':level==='medium'?'中風險':'低風險'}
+function riskClass(level){return level==='high'?'red':level==='medium'?'orange':'blue'}
+function renderAIAlerts(){
+ const all=analyzeOrderRisks();
+ const high=all.filter(x=>x.level==='high').length,medium=all.filter(x=>x.level==='medium').length;
+ ['aiHighCount','aiMediumCount','aiOrderCount'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=[high,medium,orders.filter(o=>!o.cancelled&&!isClosed(o)).length][i]});
+ const nav=document.getElementById('navAIAlertCount');if(nav)nav.textContent=all.length;
+ const dash=document.getElementById('dashboardAIAlerts');if(dash){dash.innerHTML=all.slice(0,4).map(a=>`<div class="mini-item" style="cursor:pointer" onclick="showPage('ai-alerts')"><span class="dot" style="background:${a.level==='high'?'#c44f4f':a.level==='medium'?'#c27a2c':'#376b8e'}"></span><div style="flex:1"><strong>${esc(a.no)} · ${esc(a.customer)} ${badge(riskLabel(a.level))}</strong><p>${esc(a.types.join('、'))}｜風險分數 ${a.score}</p><p>${esc(a.reasons[0])}</p></div></div>`).join('')||'<div class="empty">目前規則未發現需提示的異常。請仍依正常流程追蹤訂單。</div>'}
+ const q=(document.getElementById('aiSearch')?.value||'').toLowerCase(),rf=document.getElementById('aiRiskFilter')?.value||'all',tf=document.getElementById('aiTypeFilter')?.value||'all';
+ const arr=all.filter(a=>(rf==='all'||a.level===rf)&&(tf==='all'||a.types.includes(tf))&&(!q||[a.no,a.customer,...a.types,...a.reasons].join(' ').toLowerCase().includes(q)));
+ const body=document.getElementById('aiAlertBody');if(body)body.innerHTML=arr.map(a=>`<tr class="ai-alert-row"><td>${badge(riskLabel(a.level))}</td><td><button class="order-link" onclick="openDetail(${Number(a.id)})">${esc(a.no)}</button><span class="subtext">${esc(a.customer)}</span><span class="subtext">交期 ${fmtDate(a.due)}</span></td><td class="ai-reason"><strong>${esc(a.types.join('、'))}</strong>${a.reasons.map(x=>`<div class="subtext">${esc(x)}</div>`).join('')}</td><td class="ai-reason">${a.actions.map(x=>`<div class="ai-recommendation">${esc(x)}</div>`).join('')}</td><td><strong>${a.score}</strong><span class="subtext">規則分數</span></td><td><div class="actions"><button class="btn" onclick="openDetail(${Number(a.id)})">查看訂單</button><button class="btn soft" onclick="createAIAlertNotice(${Number(a.id)})">建立通知</button></div></td></tr>`).join('')||'<tr><td colspan="6" class="empty">目前篩選條件沒有異常項目</td></tr>';
+ const foot=document.getElementById('aiAlertFootnote');if(foot)foot.textContent=`共辨識 ${all.length} 筆風險訂單；目前顯示 ${arr.length} 筆。分數為可解釋的規則分數，不是事件發生機率；所有建議都需由人員判斷。`;
+}
+function createAIAlertNotice(id){const a=analyzeOrderRisks().find(x=>x.id===id);if(!a)return;const group=a.types.some(t=>t==='出貨後待請款')?settings.groups.finance:a.types.some(t=>t==='已生產待出貨')?settings.groups.shipping:settings.groups.manager;saveNotice(`AI POC 異常預警｜${a.no}`,`${a.customer}｜${a.types.join('、')}｜風險分數 ${a.score}。${a.reasons.join(' ')}建議：${a.actions.join(' ')}`,group,a.level==='high'?'danger':a.level==='medium'?'warning':'info');renderNotifications();toast('已建立本機模擬通知；尚未發送 LINE')}
+function runAITests(){
+ const base={id:9001,no:'TEST-OVERDUE',customer:'測試客戶',due:addDays(TODAY,-2),qty:100,produced:20,shipped:0,priority:'一般',production:'生產中',shipping:'未出貨',finance:'未請款',shipments:[],batches:[],amount:0};
+ const cases=[
+  {name:'逾期未完成應辨識為高風險',order:{...base},expect:a=>a&&a.level==='high'&&a.types.includes('逾期未完成')},
+  {name:'交期兩天內且生產低於 50% 應提示',order:{...base,id:9002,no:'TEST-DUE-SOON',due:addDays(TODAY,2),produced:10,priority:'一般'},expect:a=>a&&a.types.includes('交期逼近／進度落後')},
+  {name:'急件未生產且七天內到期應提示',order:{...base,id:9003,no:'TEST-URGENT',due:addDays(TODAY,5),produced:0,priority:'特急'},expect:a=>a&&a.types.includes('急件尚未啟動')},
+  {name:'已結案訂單應排除',order:{...base,id:9004,no:'TEST-CLOSED',due:addDays(TODAY,-3),cancelled:false,production:'已完成',produced:100,shipped:100,shipments:[{qty:100}],invoiceRecords:[{items:[{itemIndex:0,qty:100}]}]},expect:a=>!a},
+  {name:'出貨量大於生產量應辨識資料異常',order:{...base,id:9005,no:'TEST-QTY',due:addDays(TODAY,10),produced:10,shipped:20,shipments:[{qty:20}],priority:'一般'},expect:a=>a&&a.types.includes('數量資料異常')}
+ ];
+ const out=cases.map(c=>{let a=analyzeOrderRisks([c.order])[0];let pass=!!c.expect(a);return {name:c.name,pass}});const el=document.getElementById('aiTestResults');if(el)el.innerHTML=out.map(x=>`<div class="ai-test-result ${x.pass?'pass':'fail'}"><strong>${x.pass?'✓ 通過':'✕ 未通過'}</strong>｜${esc(x.name)}</div>`).join('')+`<p class="small" style="margin-top:10px">自測結果：${out.filter(x=>x.pass).length}/${out.length} 通過。這些是規則邏輯的合成案例，不等於真實營運資料上的準確率。</p>`;
+}
+function renderDashboard(){
+let active=orders.filter(o=>!isClosed(o)&&!o.cancelled),prod=active.filter(o=>produced(o)<o.qty),ship=active.filter(o=>available(o)>0),fin=active.filter(o=>pendingInvoiceAmount(o).items.length>0),risk=active.filter(o=>dateDiff(o.due)<=3);
+document.getElementById('statActive').textContent=active.length;document.getElementById('statProduction').textContent=prod.length;document.getElementById('statShipping').textContent=ship.length;document.getElementById('statOverdue').textContent=risk.length;
+document.getElementById('islandProduction').textContent=prod.length+' 件待處理';document.getElementById('islandOrders').textContent=active.length+' 張進行中';document.getElementById('islandShipping').textContent=ship.length+' 件可出貨';document.getElementById('islandFinance').textContent=fin.length+' 件待請款';
+document.getElementById('navOrderCount').textContent=active.length;
+let list=sortedOrders(active).slice(0,5);document.getElementById('recentOrders').innerHTML=list.map(o=>`<tr><td><button class="order-link" onclick="openDetail(${o.id})">${esc(o.no)}</button><span class="subtext">${esc(o.customer)} · ${esc(o.product)}</span></td><td>${fmtDate(o.due)}<span class="subtext">${dateDiff(o.due)<0?`逾期 ${-dateDiff(o.due)} 天`:dateDiff(o.due)===0?'今天到期':`剩 ${dateDiff(o.due)} 天`}</span></td><td>${badge(effectiveStatus(o))}</td><td>${badge(o.priority)}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">目前沒有進行中訂單</td></tr>';
+let tasks=[['#3f8062','廠務待處理',prod.length+' 張訂單尚未全部生產完成','production'],['#c27a2c','待安排出貨',ship.length+' 張訂單有可出貨數量','shipping'],['#7962a8','財務待請款',fin.length+' 張訂單需要處理請款','finance'],['#c44f4f','交期風險',risk.length+' 張訂單交期在 3 天內或已逾期','orders']];
+document.getElementById('departmentTasks').innerHTML=tasks.map(t=>`<div class="mini-item" style="cursor:pointer" onclick="showPage('${t[3]}')"><span class="dot" style="background:${t[0]}"></span><div><strong>${t[1]}</strong><p>${t[2]}</p></div></div>`).join('');
+document.getElementById('recentNotices').innerHTML=notices.slice(0,3).map(n=>`<div class="mini-item"><span class="dot" style="background:${n.type==='danger'?'#c44f4f':n.type==='warning'?'#c27a2c':'#376b8e'}"></span><div><strong>${esc(n.title)}</strong><p>${esc(n.body)}</p></div></div>`).join('')||'<div class="empty">目前沒有通知</div>';
+}
+function renderOrders(){
+let q=(document.getElementById('orderSearch')?.value||'').toLowerCase(),st=document.getElementById('statusFilter')?.value||'',pr=document.getElementById('priorityFilter')?.value||'';
+let arr=sortedOrders(orders).filter(o=>(!q||[o.no,o.customer,o.product,o.productCode].some(v=>String(v||'').toLowerCase().includes(q)))&&(!st||effectiveStatus(o)===st||o.production===st||o.shipping===st||o.finance===st)&&(!pr||o.priority===pr));
+document.getElementById('ordersBody').innerHTML=arr.map(o=>`<tr><td><button class="order-link" onclick="openDetail(${o.id})">${esc(o.no)}</button><span class="subtext">${esc(o.customer)}</span></td><td>${esc(o.product)}<span class="subtext">${Number(o.qty).toLocaleString()} ${esc(o.unit||'個')} · ${esc(o.spec||'')}</span></td><td>${fmtDate(o.due)}${dateDiff(o.due)<0&&!isClosed(o)?`<span class="subtext" style="color:#b24343">逾期 ${-dateDiff(o.due)} 天</span>`:''}</td><td>${produced(o)}/${o.qty}</td><td>${shipped(o)}/${o.qty}</td><td>${badge(o.finance)}</td><td>${badge(effectiveStatus(o))}</td><td><button class="btn" onclick="openDetail(${o.id})">查看</button></td></tr>`).join('')||'<tr><td colspan="8" class="empty">找不到符合條件的訂單</td></tr>';
+document.getElementById('orderCountNote').textContent=`顯示 ${arr.length} 筆／共 ${orders.length} 筆示範訂單。`;
+}
+function renderProduction(){
+let q=(document.getElementById('productionSearch')?.value||'').toLowerCase(),mode=document.getElementById('productionMode')?.value||'all';
+let arr=sortedOrders(orders.filter(o=>!isClosed(o)&&!o.cancelled&&produced(o)<o.qty)).filter(o=>(!q||[o.no,o.customer,o.product].some(v=>String(v).toLowerCase().includes(q)))&&(mode==='all'||(mode==='pending'&&produced(o)===0)||(mode==='doing'&&produced(o)>0&&produced(o)<o.qty)||(mode==='partial'&&produced(o)>0)));
+document.getElementById('productionBody').innerHTML=arr.map(o=>`<tr><td><button class="order-link" onclick="openDetail(${o.id})">${esc(o.no)}</button><span class="subtext">${esc(o.customer)} · ${esc(o.product)}</span></td><td>${o.qty} ${esc(o.unit||'個')}</td><td>${produced(o)} / ${o.qty}<span class="subtext">${o.qty?Math.round(produced(o)/o.qty*100):0}%</span></td><td>${fmtDate(o.due)}<span class="subtext">${badge(o.priority)}</span></td><td>${esc(o.notes||'—')}</td><td><div class="actions"><button class="btn soft" onclick="completeProduction(${o.id})">整單完成</button><button class="btn" onclick="openBatchModal(${o.id})">分批回報</button></div></td></tr>`).join('')||'<tr><td colspan="6" class="empty">目前沒有待生產訂單</td></tr>';
+}
+function renderShipping(){
+let q=(document.getElementById('shippingSearch')?.value||'').toLowerCase(),arr=sortedOrders(orders.filter(o=>!o.cancelled&&available(o)>0)).filter(o=>!q||[o.no,o.customer,o.product].some(v=>String(v).toLowerCase().includes(q)));
+document.getElementById('shippingBody').innerHTML=arr.map(o=>`<tr><td><button class="order-link" onclick="openDetail(${o.id})">${esc(o.no)}</button><span class="subtext">${esc(o.customer)} · ${esc(o.product)}</span></td><td>${o.qty}</td><td><strong>${available(o)}</strong><span class="subtext">已生產 ${produced(o)} · 已出貨 ${shipped(o)}</span></td><td>${fmtDate(o.due)}</td><td>${badge(shipped(o)>0?'部分出貨':'待出貨')}</td><td><button class="btn primary" onclick="openShipModal(${o.id})">建立出貨</button></td></tr>`).join('')||'<tr><td colspan="6" class="empty">目前沒有可出貨訂單</td></tr>';
+document.getElementById('shipPending').textContent=orders.filter(o=>available(o)>0&&shipped(o)===0).length;document.getElementById('shipPartial').textContent=orders.filter(o=>shipped(o)>0&&shipped(o)<o.qty).length;document.getElementById('shipDone').textContent=orders.filter(o=>shipped(o)>=o.qty).length;
+}
+
+function invoicedForItem(o,index){
+ const records=o.invoiceRecords||[];
+ return records.reduce((sum,record)=>{
+   const lines=record.items||[];
+   return sum+lines.filter(line=>Number(line.itemIndex)===index).reduce((n,line)=>n+Number(line.qty||0),0);
+ },0);
+}
+function pendingInvoiceItems(o){
+ const items=orderItems(o),result=[],missing=[];
+ items.forEach((it,index)=>{
+   const shippedQty=shippedForItem(o,index);
+   const invoicedQty=invoicedForItem(o,index);
+   const qty=Math.max(0,shippedQty-invoicedQty);
+   if(qty<=0)return;
+   const rawPrice=it.unitPrice??it.price;
+   const unitPrice=rawPrice===undefined||rawPrice===null||rawPrice===''?NaN:Number(rawPrice);
+   if(!Number.isFinite(unitPrice)||unitPrice<0)missing.push(it.product||it.productCode||`品項${index+1}`);
+   result.push({
+     itemIndex:index,product:it.product||it.productCode||`品項${index+1}`,
+     productCode:it.productCode||'',qty,unit:it.unit||'個',
+     unitPrice,amount:Number.isFinite(unitPrice)&&unitPrice>=0?qty*unitPrice:0
+   });
+ });
+ return {items:result,missing,total:result.reduce((sum,it)=>sum+it.amount,0)};
+}
+function pendingInvoiceAmount(o){return pendingInvoiceItems(o)}
+
+function shippedAmount(o){
+ const items=orderItems(o);
+ let total=0,missing=[];
+ (o.shipments||[]).forEach(sh=>{
+   if(sh.items&&sh.items.length){
+     sh.items.forEach(line=>{
+       const price=Number(line.unitPrice??items[line.itemIndex]?.unitPrice??items[line.itemIndex]?.price);
+       const qty=Number(line.qty)||0;
+       if(!Number.isFinite(price)||price<0){missing.push(line.product||items[line.itemIndex]?.product||'未命名品項');}
+       else total+=qty*price;
+     });
+   } else if(Number.isFinite(Number(sh.amount))){total+=Number(sh.amount)||0;}
+   else if(Number(sh.qty)>0 && items.length===1){
+     const price=Number(items[0].unitPrice??items[0].price);
+     if(Number.isFinite(price)&&price>=0) total+=Number(sh.qty)*price;
+     else missing.push(items[0].product||'未命名品項');
+   }
+ });
+ return {total,missing:[...new Set(missing)]};
+}
+function financeAmountCell(o){
+ const result=pendingInvoiceAmount(o);
+ const details=result.items.map(it=>{
+   if(!Number.isFinite(it.unitPrice)||it.unitPrice<0)return `<div class="subtext">${esc(it.product)}：待請 ${it.qty}，尚未設定單價</div>`;
+   return `<div class="subtext">${esc(it.product)}：待請 ${it.qty} × NT$ ${money(it.unitPrice)} = NT$ ${money(it.amount)}</div>`;
+ }).join('');
+ const warn=result.missing.length?`<div class="subtext" style="color:#b45309">請補單價：${esc(result.missing.join('、'))}</div>`:'';
+ return `<strong>NT$ ${money(result.total)}</strong><div class="subtext">本次待請款未稅金額</div>${details}${warn}`;
+}
+function renderFinance(){
+let q=(document.getElementById('financeSearch')?.value||'').toLowerCase(),f=document.getElementById('financeFilter')?.value||'open';
+let arr=sortedOrders(orders.filter(o=>!o.cancelled)).filter(o=>{
+ const pending=pendingInvoiceAmount(o).items.length>0;
+ return (!q||[o.no,o.customer,o.product].some(v=>String(v).toLowerCase().includes(q)))&&
+ (f==='all'||(f==='done'&&((o.invoiceRecords||[]).length>0&&!pending))||(f==='open'&&pending));
+});
+document.getElementById('financeBody').innerHTML=arr.map(o=>{
+ const pending=pendingInvoiceAmount(o),records=o.invoiceRecords||[];
+ const state=pending.items.length?(records.length?'部分已請款／有待請款':'待請款'):(records.length?'已請款':'尚未出貨／待請款');
+ const button=pending.items.length?`<button class="btn primary" onclick="markInvoiced(${o.id})">確認本次請款完成</button>`:'<span class="small">目前無待請款出貨</span>';
+ const history=records.length?`<div class="subtext">已確認 ${records.length} 次請款，累計 NT$ ${money(records.reduce((sum,r)=>sum+Number(r.amount||0),0))}</div>`:'';
+ return `<tr><td><button class="order-link" onclick="openDetail(${o.id})">${esc(o.no)}</button><span class="subtext">${esc(o.customer)}</span></td><td>${(o.shipments||[]).map(s=>esc(s.no)).join('<br>')||'—'}${history}</td><td>${badge(shipped(o)>=o.qty?'已全部出貨':shipped(o)>0?'部分出貨':'尚未出貨')}</td><td>${financeAmountCell(o)}</td><td>${badge(state)}</td><td>${button}</td></tr>`
+}).join('')||'<tr><td colspan="6" class="empty">目前沒有符合條件的請款訂單</td></tr>';
+}
+function renderCalendar(){
+let y=calendarMonth.getFullYear(),m=calendarMonth.getMonth();document.getElementById('calendarTitle').textContent=`${y} 年 ${m+1} 月`;
+let first=new Date(y,m,1),startDay=first.getDay(),days=new Date(y,m+1,0).getDate(),prevDays=new Date(y,m,0).getDate();
+let heads=['日','一','二','三','四','五','六'].map(x=>`<div class="cal-cell head">週${x}</div>`).join('');let cells='';
+for(let i=0;i<42;i++){let day,dt,other=false;if(i<startDay){day=prevDays-startDay+i+1;dt=iso(new Date(y,m-1,day));other=true}else if(i>=startDay+days){day=i-startDay-days+1;dt=iso(new Date(y,m+1,day));other=true}else{day=i-startDay+1;dt=iso(new Date(y,m,day))}
+let ev=orders.filter(o=>o.due===dt&&!o.cancelled);let cls=dt===todayISO?' style="outline:2px solid #4b819d;outline-offset:-2px"':'';cells+=`<div class="cal-cell" ${cls} style="${other?'background:#fafbfd;':''}" onclick="selectCalendarDate('${dt}')"><div class="cal-day" style="${other?'color:#b7c0c8':''}">${day}${dt===todayISO?' · 今天':''}</div>${ev.slice(0,2).map(o=>`<div class="cal-event ${dateDiff(o.due)<0&&!isClosed(o)?'overdue':produced(o)>=o.qty?'done':''}" title="${esc(o.no)}｜${esc(o.customer)}" onclick="event.stopPropagation();openDetail(${o.id})">${esc(o.no.slice(-3))} ${esc(o.customer)}</div>`).join('')}${ev.length>2?`<div class="small">+${ev.length-2} 筆</div>`:''}</div>`}
+document.getElementById('calendarGrid').innerHTML=heads+cells;selectCalendarDate(selectedDate&&new Date(selectedDate+'T00:00:00').getMonth()===m?selectedDate:todayISO);
+}
+function selectCalendarDate(dt){selectedDate=dt;document.getElementById('selectedDateLabel').textContent=fmtDate(dt);let ev=orders.filter(o=>o.due===dt);document.getElementById('selectedDateEvents').innerHTML=ev.map(o=>`<div class="mini-item" style="cursor:pointer" onclick="openDetail(${o.id})"><span class="dot" style="background:${dateDiff(o.due)<0&&!isClosed(o)?'#c44f4f':'#376b8e'}"></span><div><strong>${esc(o.no)} · ${esc(o.customer)}</strong><p>${esc(o.product)} · ${o.qty} ${esc(o.unit||'個')}</p><p>${badge(effectiveStatus(o))}</p></div></div>`).join('')||'<div class="empty">此日期沒有訂單交期事件</div>'}
+function changeMonth(n){calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+n,1);renderCalendar()}
+function goToday(){calendarMonth=new Date(TODAY.getFullYear(),TODAY.getMonth(),1);selectedDate=todayISO;renderCalendar()}
+function openOrderModal(id=null){
+let o=id?orders.find(x=>x.id===id):null;
+document.getElementById('orderModalTitle').textContent=o?'編輯訂單':'新增訂單';document.getElementById('editOrderId').value=o?.id||'';document.getElementById('fOperator').value='';document.getElementById('fOperatorDept').value='訂單組';document.getElementById('fOrderNo').value=o?.no||`LP-${todayISO.slice(0,7).replace('-','')}-${String(orders.length+1).padStart(3,'0')}`;document.getElementById('fCustomer').value=o?.customer||'';document.getElementById('fOrderDate').value=o?.orderDate||todayISO;document.getElementById('fNotes').value=o?.notes||'';document.getElementById('fCustomerRef').value=o?.customerRef||'';
+let items=(o?.items?.length?o.items:[{productCode:o?.productCode||'',product:o?.product||'',spec:o?.spec||'',qty:o?.qty||1,unit:o?.unit||'個',due:o?.due||addDays(TODAY,7),priority:o?.priority||'一般'}]).map(item=>({...item,due:item.due||o?.due||addDays(TODAY,7),priority:item.priority||o?.priority||'一般'}));document.getElementById('orderItemsBody').innerHTML='';items.forEach(item=>addOrderItemRow(item));updateOrderItemsTotal();document.getElementById('orderModal').classList.add('show')
+}
+function addOrderItemRow(item={}){const body=document.getElementById('orderItemsBody'),tr=document.createElement('tr');tr.className='order-item-row';tr.innerHTML=`<td><input class="item-code" aria-label="產品編號" placeholder="KF-1001" value="${esc(item.productCode||'')}"></td><td><input class="item-name" aria-label="產品名稱" placeholder="產品名稱" required value="${esc(item.product||'')}"></td><td><input class="item-spec" aria-label="規格／型號" placeholder="顏色／尺寸" value="${esc(item.spec||'')}"></td><td><input class="item-qty" aria-label="訂購數量" type="number" min="1" step="1" required value="${Math.max(1,Number(item.qty)||1)}"></td><td><select class="item-unit" aria-label="單位"><option ${(!item.unit||item.unit==='個')?'selected':''}>個</option><option ${item.unit==='組'?'selected':''}>組</option><option ${item.unit==='箱'?'selected':''}>箱</option><option ${item.unit==='套'?'selected':''}>套</option></select></td><td><input class="item-price" type="number" min="0" step="0.01" aria-label="未稅單價" value="${Number(item.unitPrice??item.price??0)}"></td><td><input class="item-due" aria-label="品項交期" type="date" required value="${esc(item.due||addDays(TODAY,7))}"></td><td><select class="item-priority" aria-label="品項優先級"><option ${(!item.priority||item.priority==='一般')?'selected':''}>一般</option><option ${item.priority==='急件'?'selected':''}>急件</option><option ${item.priority==='特急'?'selected':''}>特急</option></select></td><td><button type="button" class="btn remove-item" aria-label="刪除此品項" onclick="removeOrderItemRow(this)">移除</button></td>`;body.appendChild(tr);tr.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',updateOrderItemsTotal));updateOrderItemsTotal()}
+function removeOrderItemRow(button){if(document.querySelectorAll('#orderItemsBody .order-item-row').length<=1){toast('每張訂單至少需要一個品項');return}button.closest('tr').remove();updateOrderItemsTotal()}
+function readOrderItems(){return [...document.querySelectorAll('#orderItemsBody .order-item-row')].map(row=>({productCode:row.querySelector('.item-code').value.trim(),product:row.querySelector('.item-name').value.trim(),spec:row.querySelector('.item-spec').value.trim(),qty:Number(row.querySelector('.item-qty').value),unit:row.querySelector('.item-unit').value,unitPrice:Number(row.querySelector('.item-price').value),due:row.querySelector('.item-due').value,priority:row.querySelector('.item-priority').value}))}
+function updateOrderItemsTotal(){const rows=readOrderItems(),total=rows.reduce((sum,item)=>sum+(Number(item.qty)||0),0),el=document.getElementById('orderItemsTotal');if(el)el.textContent=`品項數：${rows.length}｜總數量：${total.toLocaleString()}`}
+function closeOrderModal(){document.getElementById('orderModal').classList.remove('show')}
+function operatorValue(id){let dept=document.getElementById(id+'Dept')?.value||'';let msg=(document.getElementById(id)?.value||'').trim();return dept&&msg?dept+'｜'+msg:''}
+function addAudit(o,stage,operator,action){o.auditLogs=o.auditLogs||[];o.auditLogs.push({time:new Date().toLocaleString('zh-TW',{hour12:false}),stage,operator,action});}
+function saveOrder(e){
+e.preventDefault();let operator=operatorValue('fOperator');if(!operator){toast('請填寫確認人員姓名');return}let items=readOrderItems();if(!items.length||items.some(x=>!x.product||!Number.isInteger(x.qty)||x.qty<1||!Number.isFinite(x.unitPrice)||x.unitPrice<0)){toast('請確認每個品項都已填寫產品名稱與有效數量');return}
+let id=document.getElementById('editOrderId').value,no=document.getElementById('fOrderNo').value.trim();if(orders.some(o=>o.no.toLowerCase()===no.toLowerCase()&&String(o.id)!==String(id))){toast('訂單編號重複，請更換編號');return}
+let totalQty=items.reduce((sum,x)=>sum+x.qty,0),first=items[0],priorityRank={一般:1,急件:2,特急:3};let data={no,customer:document.getElementById('fCustomer').value.trim(),orderDate:document.getElementById('fOrderDate').value,due:items.map(x=>x.due).filter(Boolean).sort()[0],items,productCode:first.productCode,product:items.map(x=>x.product).join('、'),spec:first.spec,qty:totalQty,unit:items.every(x=>x.unit===first.unit)?first.unit:'多單位',priority:items.reduce((best,x)=>priorityRank[x.priority]>priorityRank[best]?x.priority:best,'一般'),notes:document.getElementById('fNotes').value.trim(),customerRef:document.getElementById('fCustomerRef').value.trim()};
+if(id){let o=orders.find(x=>String(x.id)===String(id));if(o&&((o.batches||[]).length||(o.shipments||[]).length)&&totalQty!==o.qty){toast('此訂單已有生產或出貨紀錄，示範版暫不允許修改總數量');return}Object.assign(o,data);addAudit(o,'訂單資料',operator,`修改訂單資料；共 ${items.length} 個品項，總數量 ${totalQty}`);saveNotice('訂單資料已修改',`${o.no}｜${o.customer} 的訂單資料已更新。確認人員：${operator}`,'收發部門群組','info')}
+else{let created={id:Date.now(),...data,produced:0,shipped:0,production:'待生產',shipping:'未出貨',finance:'未請款',shipments:[],batches:[],amount:0,auditLogs:[]};addAudit(created,'訂單建立',operator,`建立訂單；共 ${items.length} 個品項，總數量 ${totalQty}`);orders.push(created);saveNotice('新訂單已建立',`${no}｜${data.customer}，${items.length} 個品項，總數量 ${totalQty}，交期 ${fmtDate(data.due)}。確認人員：${operator}`,'廠務部門群組','info')}
+persist();closeOrderModal();renderAll();toast(id?'訂單已更新（本機示範）':'訂單已建立（本機示範）')}
+function openDetail(id){let o=orders.find(x=>x.id===id);if(!o)return;document.getElementById('detailTitle').textContent=o.no+'｜'+o.customer;
+let itemRows=(o.items?.length?o.items:[{productCode:o.productCode,product:o.product,spec:o.spec,qty:o.qty,unit:o.unit||'個',due:o.due,priority:o.priority}]).map((it,i)=>`<tr><td>${i+1}</td><td>${esc(it.productCode||'—')}</td><td>${esc(it.product||'—')}</td><td>${esc(it.spec||'—')}</td><td>${Number(it.qty).toLocaleString()}</td><td>${esc(it.unit||'個')}</td><td>NT$ ${money(it.unitPrice??it.price??0)}</td><td>${fmtDate(it.due||o.due)}</td><td>${badge(it.priority||o.priority||'一般')}</td></tr>`).join('');
+let batchRows=(o.batches||[]).map(b=>`<tr><td>${fmtDate(b.date)}</td><td>${esc(b.itemName||'整單／舊紀錄')}${b.itemSpec?'（'+esc(b.itemSpec)+'）':''}</td><td>${b.qty} ${esc(b.unit||o.unit||'個')}</td><td>${fmtDate(b.itemDueDate||o.due)}</td><td>${esc(b.operator||'—')}</td><td>${esc(b.notes||'—')}</td></tr>`).join('')||'<tr><td colspan="3" class="small">尚無分批回報</td></tr>';
+let shipRows=(o.shipments||[]).map(s=>`<tr><td>${esc(s.no)}</td><td>${fmtDate(s.date)}</td><td>${s.qty}</td><td>NT$ ${money(s.amount??0)}</td></tr>`).join('')||'<tr><td colspan="3" class="small">尚無出貨紀錄</td></tr>';
+document.getElementById('detailContent').innerHTML=`<div class="order-detail-grid"><div class="detail-box"><small>目前狀態</small><strong>${badge(effectiveStatus(o))}</strong></div><div class="detail-box"><small>交期／優先級</small><strong>${fmtDate(o.due)} · ${esc(o.priority)}</strong></div><div class="detail-box"><small>訂購數量</small><strong>${o.qty} ${esc(o.unit||'個')}</strong></div><div class="detail-box"><small>已生產</small><strong>${produced(o)} / ${o.qty}</strong></div><div class="detail-box"><small>已出貨</small><strong>${shipped(o)} / ${o.qty}</strong></div><div class="detail-box"><small>請款狀態</small><strong>${badge(o.finance)}</strong></div></div><h3 style="font-size:13px;margin-top:18px">訂單品項（${(o.items||[]).length||1} 項）</h3><div class="table-wrap"><table><thead><tr><th>#</th><th>產品編號</th><th>產品名稱</th><th>規格</th><th>數量</th><th>單位</th><th>品項交期</th><th>優先級</th></tr></thead><tbody>${itemRows}</tbody></table></div><p><strong>注意事項：</strong>${esc(o.notes||'無')}</p><div class="workflow"><div class="workflow-card"><h3>① 生產</h3><p>狀態：${badge(o.production)}<br>已生產 ${produced(o)} / ${o.qty}</p><button class="btn soft" onclick="completeProduction(${o.id});closeDetail()">整單完成</button><button class="btn" onclick="closeDetail();openBatchModal(${o.id})">分批回報</button></div><div class="workflow-card"><h3>② 出貨</h3><p>狀態：${badge(o.shipping)}<br>可出貨 ${available(o)}</p><button class="btn soft" ${available(o)<=0?'disabled':''} onclick="closeDetail();openShipModal(${o.id})">建立出貨</button></div><div class="workflow-card"><h3>③ 財務</h3><p>狀態：${badge(o.finance)}<br>示範金額 NT$ ${Number(o.amount||0).toLocaleString()}</p><button class="btn soft" ${shipped(o)<=0||o.finance==='已請款'?'disabled':''} onclick="markInvoiced(${o.id});closeDetail()">確認請款完成</button></div></div><h3 style="font-size:13px;margin-top:22px">生產紀錄</h3><div class="table-wrap"><table><thead><tr><th>回報日期</th><th>品項／規格</th><th>完成數量</th><th>品項交期</th><th>回報人員</th><th>備註</th></tr></thead><tbody>${batchRows}</tbody></table></div><h3 style="font-size:13px;margin-top:18px">出貨紀錄</h3><div class="table-wrap"><table><thead><tr><th>出貨單號</th><th>日期</th><th>數量</th></tr></thead><tbody>${shipRows}</tbody></table></div><h3 style="font-size:13px;margin-top:18px">操作責任紀錄</h3><div class="table-wrap"><table><thead><tr><th>時間</th><th>環節</th><th>確認人員</th><th>動作／備註</th></tr></thead><tbody>${(o.auditLogs||[]).slice().reverse().map(a=>`<tr><td>${esc(a.time)}</td><td>${esc(a.stage)}</td><td><strong>${esc(a.operator)}</strong></td><td>${esc(a.action)}</td></tr>`).join('')||'<tr><td colspan="4" class="small">尚無操作責任紀錄</td></tr>'}</tbody></table></div><div class="modal-actions"><button class="btn" onclick="closeDetail();openOrderModal(${o.id})">編輯訂單</button><button class="btn primary" onclick="closeDetail()">完成</button></div>`;
+document.getElementById('detailModal').classList.add('show')}
+function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
+function completeProduction(id){let o=orders.find(x=>x.id===id);if(!o)return;if(produced(o)>=o.qty){toast('此訂單已達成生產數量');return}let operator=prompt('請輸入生產完成確認人員姓名：');if(operator===null)return;operator=operator.trim();if(!operator){toast('未填寫確認人員，操作已取消');return}let q=o.qty-produced(o);o.batches=o.batches||[];o.batches.push({date:todayISO,qty:q,notes:'整單完成回報',operator});o.produced=produced(o);o.production='已完成';addAudit(o,'生產確認',operator,`確認整單生產完成（本次 ${q} 件）`);persist();saveNotice('生產完成',`${o.no}｜${o.customer} 已完成生產，可安排出貨。確認人員：${operator}`,'出貨部門群組','info');saveNotice('生產完成通知',`${o.no} 已由 ${operator} 回報生產完成。`,'主管群組','info');renderAll();toast(`已回報生產完成 ${q} 件；確認人員：${operator}`)}
+function openBatchModal(id){
+let o=orders.find(x=>String(x.id)===String(id));if(!o)return;
+document.getElementById('batchOrderId').value=id;
+document.getElementById('batchOperator').value='';document.getElementById('batchOperatorDept').value='廠務組';
+document.getElementById('batchDate').value=todayISO;
+document.getElementById('batchNotes').value='';
+let items=orderItems(o);
+document.getElementById('batchOrderSummary').innerHTML=`<strong>${esc(o.no)}</strong>｜${esc(o.customer)}<br><span class="small">本次請依各品項實際完成／可交貨數量分別回報；品項交期與優先級供排程參考。</span>`;
+document.getElementById('batchItemsBody').innerHTML=items.map((it,i)=>{
+let qty=Number(it.qty)||0,done=producedForItem(o,i),remaining=Math.max(0,qty-done);
+let due=it.due||it.itemDue||o.due||'';
+let priority=it.priority||o.priority||'一般';
+return `<tr data-item-index="${i}"><td><div class="batch-item-title">${esc(it.product||'未命名品項')}</div><div class="batch-item-sub">${esc(it.productCode||'未填品號')} · ${esc(it.spec||'未填規格')}</div></td><td>${qty} ${esc(it.unit||'個')}</td><td>${done} / ${qty}</td><td><input class="batch-qty-input batch-item-qty" type="number" min="0" max="${remaining}" step="1" value="0" aria-label="${esc(it.product||'品項')}本次完成數量" ${remaining===0?'disabled':''}></td><td>${fmtDate(due)}</td><td>${badge(priority)}</td></tr>`;
+}).join('');
+document.querySelectorAll('#batchItemsBody .batch-item-qty').forEach(el=>el.addEventListener('input',updateBatchQtyTotal));
+updateBatchQtyTotal();
+document.getElementById('batchModal').classList.add('show')
+}
+function updateBatchQtyTotal(){
+let total=[...document.querySelectorAll('#batchItemsBody .batch-item-qty')].reduce((sum,el)=>sum+(Number(el.value)||0),0);
+let el=document.getElementById('batchQtyTotal');if(el)el.value=total;
+}
+function closeBatchModal(){document.getElementById('batchModal').classList.remove('show')}
+function saveBatch(e){
+e.preventDefault();
+let operator=operatorValue('batchOperator');if(!operator){toast('請填寫生產回報人員姓名');return}
+let o=orders.find(x=>String(x.id)===document.getElementById('batchOrderId').value);if(!o)return;
+let items=orderItems(o),date=document.getElementById('batchDate').value,notes=document.getElementById('batchNotes').value.trim();
+let reports=[...document.querySelectorAll('#batchItemsBody tr')].map(row=>({itemIndex:Number(row.dataset.itemIndex),qty:Number(row.querySelector('.batch-item-qty')?.value)||0}));
+if(!reports.some(r=>r.qty>0)){toast('請至少輸入一個品項的本次完成／交貨數量');return}
+for(let r of reports){
+let item=items[r.itemIndex],done=producedForItem(o,r.itemIndex),remaining=(Number(item.qty)||0)-done;
+if(!Number.isInteger(r.qty)||r.qty<0||r.qty>remaining){toast(`品項「${item.product||r.itemIndex+1}」回報數量不正確，最多可回報 ${Math.max(0,remaining)} ${item.unit||'個'}`);return}
+}
+o.batches=o.batches||[];
+let saved=[];
+reports.filter(r=>r.qty>0).forEach(r=>{
+let item=items[r.itemIndex];
+let batch={date,qty:r.qty,notes,operator,itemIndex:r.itemIndex,itemName:item.product||'',itemCode:item.productCode||'',itemSpec:item.spec||'',itemDueDate:item.due||item.itemDue||o.due||'',itemPriority:item.priority||o.priority||'一般',unit:item.unit||'個'};
+o.batches.push(batch);saved.push(`${item.product||item.productCode||'品項'+(r.itemIndex+1)} ${r.qty}${item.unit||'個'}`);
+});
+let totalThis=saved.length?reports.reduce((sum,r)=>sum+r.qty,0):0;
+o.produced=produced(o);
+o.production=o.produced>=o.qty?'已完成':'生產中';
+addAudit(o,'生產回報',operator,`分批回報：${saved.join('、')}；本次合計 ${totalThis}；${notes||'無備註'}`);
+closeBatchModal();persist();
+if(o.production==='已完成')saveNotice('生產完成',`${o.no} 已全部完成生產，可安排出貨。確認人員：${operator}`,'出貨部門群組','info');
+else saveNotice('生產分批回報',`${o.no} 本次回報 ${saved.join('、')}；訂單累計 ${o.produced}/${o.qty}。確認人員：${operator}`,'廠務部門群組','info');
+renderAll();toast(`分批生產回報已儲存，本次合計 ${totalThis}；確認人員：${operator}`)
+}
+function openShipModal(id){
+let o=orders.find(x=>String(x.id)===String(id));if(!o||available(o)<=0){toast('目前沒有可出貨數量');return}
+document.getElementById('shipOrderId').value=id;document.getElementById('shipOperator').value='';document.getElementById('shipOperatorDept').value='出貨組';
+document.getElementById('shipNo').value=`DN-${todayISO.slice(0,7).replace('-','')}-${String(orders.reduce((n,x)=>n+(x.shipments||[]).length,0)+1).padStart(3,'0')}`;
+document.getElementById('shipDate').value=todayISO;document.getElementById('shipNotes').value='';
+document.getElementById('shipItemsBody').innerHTML=orderItems(o).map((it,i)=>{
+let done=producedForItem(o,i),sh=shippedForItem(o,i),avail=Math.max(0,Math.min(Number(it.qty)||0,done)-sh),price=Number(it.unitPrice??it.price??0);
+return `<tr data-index="${i}" data-price="${price}"><td><strong>${esc(it.product||'品項')}</strong><span class="subtext">${esc(it.productCode||'')}／${esc(it.spec||'')}</span></td><td>${done}</td><td>${sh}</td><td>${avail}</td><td><input class="ship-item-qty" type="number" min="0" max="${avail}" step="1" value="0" ${avail===0?'disabled':''} style="width:100px"></td><td>NT$ ${money(price)}</td><td class="ship-subtotal">NT$ 0.00</td></tr>`
+}).join('');
+document.querySelectorAll('.ship-item-qty').forEach(el=>el.addEventListener('input',updateShipTotals));updateShipTotals();
+document.getElementById('shipModal').classList.add('show')
+}
+function closeShipModal(){document.getElementById('shipModal').classList.remove('show')}
+function saveShipment(e){
+e.preventDefault();let operator=operatorValue('shipOperator');if(!operator){toast('請選擇單位並填寫訊息');return}
+let o=orders.find(x=>String(x.id)===document.getElementById('shipOrderId').value);if(!o)return;
+let no=document.getElementById('shipNo').value.trim();
+if(orders.some(x=>(x.shipments||[]).some(sh=>sh.no===no))){toast('出貨單號重複');return}
+let items=orderItems(o),lines=[...document.querySelectorAll('#shipItemsBody tr')].map(row=>{let i=Number(row.dataset.index),qty=Number(row.querySelector('.ship-item-qty').value);return {itemIndex:i,qty,unitPrice:Number(items[i].unitPrice??items[i].price??0),product:items[i].product,productCode:items[i].productCode,unit:items[i].unit||'個'}});
+for(let l of lines){let it=items[l.itemIndex],availableQty=Math.max(0,Math.min(Number(it.qty),producedForItem(o,l.itemIndex))-shippedForItem(o,l.itemIndex));if(!Number.isInteger(l.qty)||l.qty<0||l.qty>availableQty){toast('品項 '+it.product+' 出貨數量超過可出貨數量');return}}
+lines=lines.filter(l=>l.qty>0);if(!lines.length){toast('請至少輸入一個品項的出貨數量');return}
+let q=lines.reduce((n,l)=>n+l.qty,0),amount=lines.reduce((n,l)=>n+l.qty*l.unitPrice,0);
+o.shipments=o.shipments||[];o.shipments.push({no,date:document.getElementById('shipDate').value,qty:q,amount,items:lines,notes:document.getElementById('shipNotes').value,operator});
+addAudit(o,'出貨確認',operator,`出貨單 ${no}；本次出貨 ${q}；未稅金額 NT$ ${money(amount)}`);
+o.shipped=shipped(o);o.shipping=o.shipped>=o.qty?'已出貨':'部分出貨';o.finance='待請款';
+closeShipModal();persist();saveNotice('出貨完成通知',`${o.no}｜出貨單 ${no}，本次出貨 ${q}，未稅金額 NT$ ${money(amount)}。確認：${operator}`,'財務部門群組','info');
+saveNotice('出貨狀態更新',`${o.no} 已更新出貨紀錄，請確認後續請款。`,'主管群組','info');renderAll();toast(`已儲存出貨單 ${no}，未稅 NT$ ${money(amount)}`)
+}
+function markInvoiced(id){
+ let o=orders.find(x=>x.id===id);if(!o)return;
+ const pending=pendingInvoiceAmount(o);
+ if(!pending.items.length){toast('目前沒有尚未請款的出貨品項');return}
+ if(pending.missing.length){toast('請先補齊以下品項單價：'+pending.missing.join('、'));return}
+ let dept=prompt('請輸入請款確認單位（例如：財務組）：','財務組');if(dept===null)return;dept=dept.trim();
+ let operator=prompt('請輸入請款確認人員／訊息：');if(operator===null)return;operator=operator.trim();
+ if(!dept||!operator){toast('請填寫確認單位與人員／訊息，操作已取消');return}
+ const amount=pending.total;
+ const lines=pending.items.map(x=>({itemIndex:x.itemIndex,product:x.product,productCode:x.productCode,qty:x.qty,unitPrice:x.unitPrice,amount:x.amount,unit:x.unit}));
+ if(!confirm(`確認由 ${dept}｜${operator} 完成本次部分請款？\n本次未稅金額：NT$ ${money(amount)}\n已出貨但尚未請款的品項數：${lines.length}\n後續新出貨仍會列入待請款。`))return;
+ o.invoiceRecords=o.invoiceRecords||[];
+ o.invoiceRecords.push({date:todayISO,department:dept,operator,items:lines,amount,createdAt:new Date().toISOString()});
+ const remains=pendingInvoiceAmount(o);
+ o.finance=remains.items.length?'部分已請款':'已請款';
+ o.invoicedDate=todayISO;
+ addAudit(o,'請款確認',`${dept}｜${operator}`,`本次請款 NT$ ${money(amount)}；${lines.map(x=>`${x.product} ${x.qty} × ${money(x.unitPrice)} = ${money(x.amount)}`).join('、')}`);
+ persist();
+ saveNotice('請款完成',`${o.no}｜本次請款未稅金額 NT$ ${money(amount)}；${remains.items.length?'仍有已出貨未請款金額 NT$ '+money(remains.total):'目前已出貨品項皆已請款'}。確認：${dept}｜${operator}`,'主管群組','info');
+ renderAll();toast(remains.items.length?'本次請款已記錄，仍有待請款金額':'目前已出貨品項均已完成請款');
+}
+function renderNotifications(){document.getElementById('notificationList').innerHTML=notices.map(n=>`<div class="mini-item" style="opacity:${n.read?.65:1}"><span class="dot" style="background:${n.type==='danger'?'#c44f4f':n.type==='warning'?'#c27a2c':'#376b8e'}"></span><div style="flex:1"><strong>${esc(n.title)} ${n.read?'':`<span class="badge blue">未讀</span>`}</strong><p>${esc(n.body)}</p><p class="small">${esc(n.time)} · ${esc(n.group)} · 本機示範</p></div>${n.read?'':`<button class="btn" onclick="markRead(${n.id})">標示已讀</button>`}</div>`).join('')||'<div class="empty">目前沒有通知</div>';updateNoticeCount()}
+function markRead(id){let n=notices.find(x=>x.id===id);if(n)n.read=true;persist();renderNotifications()}
+function markAllRead(){notices.forEach(n=>n.read=true);persist();renderNotifications();toast('已全部標示已讀')}
+function simulateReminder(){let overdue=orders.filter(o=>!isClosed(o)&&dateDiff(o.due)<0);let near=orders.filter(o=>!isClosed(o)&&dateDiff(o.due)>=0&&dateDiff(o.due)<=3);let total=overdue.length+near.length;saveNotice('交期提醒測試',`掃描完成：${overdue.length} 張逾期、${near.length} 張 3 天內到期。此為模擬通知，未傳送 LINE。`,'主管群組',overdue.length?'danger':'warning');renderNotifications();toast(`已建立測試提醒；未實際發送 LINE`)}
+function loadSettings(){document.getElementById('reminderDays').value=settings.days;document.getElementById('reminderTime').value=settings.time;document.getElementById('overdueFrequency').value=settings.freq;document.getElementById('overdueEnabled').checked=settings.overdue;document.getElementById('groupReceive').value=settings.groups.receive;document.getElementById('groupProduction').value=settings.groups.production;document.getElementById('groupShipping').value=settings.groups.shipping;document.getElementById('groupFinance').value=settings.groups.finance;document.getElementById('groupManager').value=settings.groups.manager;document.getElementById('lineEnabled').checked=settings.line}
+function saveSettings(){settings={days:document.getElementById('reminderDays').value,time:document.getElementById('reminderTime').value,freq:document.getElementById('overdueFrequency').value,overdue:document.getElementById('overdueEnabled').checked,groups:{receive:document.getElementById('groupReceive').value,production:document.getElementById('groupProduction').value,shipping:document.getElementById('groupShipping').value,finance:document.getElementById('groupFinance').value,manager:document.getElementById('groupManager').value},line:document.getElementById('lineEnabled').checked};try{localStorage.setItem('gl_settings_multi_v2',JSON.stringify(settings))}catch(e){}toast('設定已儲存於本機示範環境；LINE 尚未連接');saveNotice('提醒設定已更新','提醒天數：'+settings.days+'；每日時間：'+settings.time,'管理員','info')}
+function resetDemo(){if(!confirm('確定清空所有本機訂單與通知？此操作無法復原。'))return;orders=[];notices=[];persist();renderAll();toast('訂單與通知已清空')}
+function renderAll(){renderDashboard();renderAIAlerts();renderOrders();renderProduction();renderShipping();renderFinance();renderCalendar();renderNotifications();updateNoticeCount()}
+function exportCSV(){let rows=[['訂單編號','客戶名稱','訂單日期','交期','產品編號','產品名稱','規格','數量','單位','已生產','已出貨','優先級','生產狀態','出貨狀態','請款狀態','注意事項'],...orders.map(o=>[o.no,o.customer,o.orderDate,o.due,o.productCode,o.product,o.spec,o.qty,o.unit,produced(o),shipped(o),o.priority,o.production,o.shipping,o.finance,o.notes])];let csv='\uFEFF'+rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n');let blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='良品衛浴_訂單示範資料.csv';a.click();URL.revokeObjectURL(url);toast('已匯出 CSV 示範資料')}
+function importCSV(e){let file=e.target.files[0];if(!file)return;let reader=new FileReader();reader.onload=()=>{try{let text=String(reader.result).replace(/^\uFEFF/,'');let lines=text.split(/\r?\n/).filter(x=>x.trim());if(lines.length<2)throw new Error('檔案沒有資料列');let parse=line=>{let a=[],cur='',q=false;for(let i=0;i<line.length;i++){let c=line[i];if(c==='"'&&line[i+1]==='"'&&q){cur+='"';i++}else if(c==='"')q=!q;else if(c===','&&!q){a.push(cur);cur=''}else cur+=c}a.push(cur);return a};let heads=parse(lines[0]).map(x=>x.trim());let ix=k=>heads.indexOf(k);let needed=['訂單編號','客戶名稱','交期','產品名稱','數量'];let missing=needed.filter(k=>ix(k)<0);if(missing.length)throw new Error('缺少必要欄位：'+missing.join('、'));let added=0,errors=[];for(let i=1;i<lines.length;i++){let r=parse(lines[i]),get=k=>ix(k)>=0?r[ix(k)]||'':'';let no=get('訂單編號').trim(),customer=get('客戶名稱').trim(),due=get('交期').trim(),product=get('產品名稱').trim(),qty=Number(get('數量'));if(!no||!customer||!due||!product||!Number.isFinite(qty)||qty<=0){errors.push(`第 ${i+1} 列：必填欄位或數量錯誤`);continue}if(orders.some(o=>o.no.toLowerCase()===no.toLowerCase())){errors.push(`第 ${i+1} 列：訂單編號 ${no} 已存在`);continue}orders.push({id:Date.now()+i,no,customer,orderDate:get('訂單日期')||todayISO,due,productCode:get('產品編號'),product,spec:get('規格'),qty,unit:get('單位')||'個',produced:0,shipped:0,priority:get('優先級')||'一般',notes:get('注意事項'),production:'待生產',shipping:'未出貨',finance:'未請款',shipments:[],batches:[],amount:0});added++}persist();renderAll();alert(`CSV 匯入結果（本機示範）\n成功：${added} 筆\n錯誤：${errors.length} 筆${errors.length?'\n\n'+errors.slice(0,12).join('\n'):''}`);if(added)saveNotice('CSV 匯入完成',`成功匯入 ${added} 筆訂單；錯誤 ${errors.length} 筆。`,'收發部門群組','info')}catch(err){alert('匯入失敗：'+err.message)}e.target.value=''};reader.readAsText(file,'UTF-8')}
+try{let s=localStorage.getItem('gl_settings_multi_v2');if(s)settings={...settings,...JSON.parse(s)}}catch(e){}
+function seedMigration(){orders.forEach(o=>{if(!o.shipments)o.shipments=[];if(!o.batches)o.batches=[];if(o.shipped&&!o.shipments.length)o.shipments=[{no:'DN-SEED-'+o.no.slice(-3),date:todayISO,qty:o.shipped}];if(o.produced&&!o.batches.length)o.batches=[{date:todayISO,qty:o.produced,notes:'既有示範完成數量'}]})}
+
+const featureTourSteps = [
+  {
+    kicker:'STEP 1 · OVERVIEW, ORDERS & CALENDAR',
+    title:'1. 總覽、訂單管理與交期行事曆',
+    lead:'先掌握整體營運狀況，再建立訂單並追蹤每張訂單的交期與進度。',
+    features:[
+      '營運中心：查看進行中訂單、待生產、可出貨及交期風險，並查看部門待辦與近期提醒。',
+      'AI 訂單異常預警（POC）：依交期、優先級、生產／出貨進度與數量一致性提示風險，並提供可解釋原因與建議。',
+      '訂單管理：新增或編輯訂單；一張訂單可包含多個品項，設定產品編號、規格、數量、單位、單價、交期與優先級。',
+      '訂單查詢：搜尋訂單、客戶或品名，依進度與優先級篩選，點選訂單編號查看詳細流程。',
+      '交期與行事曆：按月查看訂單交期、切換月份或回到今天，點選日期事件開啟相關訂單。',
+      '資料交換：訂單頁可匯入 CSV，也可從營運中心或訂單頁匯出 CSV 備份。'
+    ],
+    warning:'小提醒：目前 CSV 匯入以單一品項格式為主；多品項訂單可在系統介面中新增及編輯。'
+  },
+  {
+    kicker:'STEP 2 · PRODUCTION, SHIPPING & FINANCE',
+    title:'2. 生產、出貨與財務請款',
+    lead:'依實際作業分批登錄每個品項，系統會依生產、出貨與請款進度更新狀態。',
+    features:[
+      '廠務／生產：依交期及優先級查看未結案訂單，可一次回報多個品項的本次完成數量；數量不得超過各品項剩餘待生產量。',
+      '出貨管理：建立出貨單號與日期，逐項填寫本次出貨量；系統顯示可出貨數量、未稅單價與本次小計。',
+      '數量控管：出貨量不得超過已生產且尚未出貨的數量；可分批出貨並保留剩餘數量。',
+      '財務／請款：依已出貨但尚未請款的數量計算待請款金額，可分次請款並保留尚未請款的餘額。',
+      '結案狀態：訂單需完成生產、所有訂購數量出貨，且已出貨品項沒有待請款數量，才符合結案條件。'
+    ],
+    warning:'請款頁僅示範請款狀態與金額計算，不會建立正式會計憑證，也不會傳送至會計系統。'
+  },
+  {
+    kicker:'STEP 3 · NOTIFICATIONS, SETTINGS & DATA',
+    title:'3. 通知中心、提醒設定與資料管理',
+    lead:'最後了解提醒如何查看、設定，以及本機示範資料的保存方式與限制。',
+    features:[
+      '通知中心：查看訂單異動、交期風險及部門交接通知，可逐筆或全部標示已讀，也可測試建立模擬提醒。',
+      '提醒與設定：調整交期提前提醒天數、每日提醒時間、逾期提醒頻率、通知對象名稱及 LINE 模擬開關，並儲存於本機。',
+      '示範資料管理：匯出訂單 CSV 備份，或使用「重設示範資料」還原初始示範訂單。',
+      '操作流程：建立訂單後，可依序到生產、出貨、財務頁面操作；各頁的確認欄位會記錄人員／訊息，並產生示範通知或操作結果。',
+      '本機資料限制：資料儲存在目前瀏覽器的 localStorage，不會跨電腦同步；清除瀏覽器網站資料可能會移除資料。'
+    ],
+    warning:'重要：這是本機 HTML 示範原型，不是共用雲端正式系統。LINE 通知只會模擬、不會真正發送；請勿輸入真實客戶機密或敏感財務資料。'
+  }
+];
+let featureTourIndex = 0;
+function renderFeatureTour(){
+  const s = featureTourSteps[featureTourIndex];
+  document.getElementById('tourKicker').textContent = s.kicker;
+  document.getElementById('tourTitle').textContent = s.title;
+  document.getElementById('tourLead').textContent = s.lead;
+  document.getElementById('tourFeatures').innerHTML = s.features.map(t=>`<li><span class="tour-check">✓</span><span>${esc(t)}</span></li>`).join('');
+  document.getElementById('tourWarning').textContent = s.warning;
+  document.getElementById('tourStepLabel').textContent = `步驟 ${featureTourIndex+1}／${featureTourSteps.length}`;
+  for(let i=0;i<3;i++) document.getElementById('tourBar'+(i+1)).classList.toggle('active',i<=featureTourIndex);
+  document.getElementById('tourPrev').disabled = featureTourIndex===0;
+  document.getElementById('tourNext').textContent = featureTourIndex===featureTourSteps.length-1 ? '完成介紹' : '下一步';
+  document.getElementById('tourSkip').textContent = featureTourIndex===featureTourSteps.length-1 ? '稍後再看' : '略過介紹';
+}
+let driverTourInstance = null;
+function startFeatureTour(){
+  // Prefer Driver.js for a true in-context walkthrough. Keep the original
+  // built-in tour as an offline/CDN-failure fallback.
+  const driverFactory = window.driver && window.driver.js && window.driver.js.driver;
+  if (typeof driverFactory === 'function') {
+    const steps = [
+      { element: '.brand', popover: { title: '良品衛浴訂單與營運管理平台', description: '這是系統的導覽入口。接下來會逐一介紹主要工作區。', side: 'bottom', align: 'start' } },
+      { element: '[data-page="dashboard"]', popover: { title: '營運中心', description: '快速掌握進行中訂單、待辦事項與營運概況。', side: 'right', align: 'start' } },
+      { element: '[data-page="orders"]', popover: { title: '訂單管理', description: '建立、查詢及更新訂單資料；確認訂單交期、優先級與處理狀態。', side: 'right', align: 'start' } },
+      { element: '[data-page="ai-alerts"]', popover: { title: 'AI 訂單異常預警', description: 'POC 會依交期、優先級、生產／出貨進度及數量一致性提示風險，並列出原因與建議。點選此選單可查看分析結果。', side: 'right', align: 'start' } },
+      { element: '[data-page="calendar"]', popover: { title: '交期與行事曆', description: '用月曆檢視訂單交期與待追蹤事項；已結案訂單依系統規則排除。', side: 'right', align: 'start' } },
+      { element: '[data-page="production"]', popover: { title: '廠務／生產', description: '登錄生產進度與分批完成數量，協助判斷訂單是否有延誤風險。', side: 'right', align: 'start' } },
+      { element: '[data-page="shipping"]', popover: { title: '出貨管理', description: '記錄出貨資訊並追蹤尚未出貨的數量。', side: 'right', align: 'start' } },
+      { element: '[data-page="finance"]', popover: { title: '財務／請款', description: '追蹤已出貨但尚未請款的金額與處理進度。', side: 'right', align: 'start' } },
+      { element: '[data-page="notifications"]', popover: { title: '通知中心', description: '集中檢視系統建立的提醒。此 HTML 示範版的通知與 LINE 功能仍是本機模擬。', side: 'right', align: 'start' } },
+      { element: '[data-page="settings"]', popover: { title: '提醒與設定', description: '調整交期提醒、通知對象及示範設定。資料保存在目前瀏覽器，不會自動跨電腦同步。', side: 'right', align: 'start' } }
+    ];
+    try {
+      if (driverTourInstance && typeof driverTourInstance.destroy === 'function') driverTourInstance.destroy();
+      driverTourInstance = driverFactory({
+        showProgress: true,
+        animate: true,
+        smoothScroll: true,
+        allowClose: true,
+        overlayClickBehavior: 'none',
+        nextBtnText: '下一步',
+        prevBtnText: '上一步',
+        doneBtnText: '完成',
+        progressText: '{{current}} / {{total}}',
+        steps,
+        onDestroyed: () => { try { localStorage.setItem('gl_feature_tour_seen_v1','1'); } catch(e) {} }
+      });
+      driverTourInstance.drive();
+      return;
+    } catch (err) {
+      console.warn('Driver.js 導覽啟動失敗，改用內建導覽。', err);
+    }
+  }
+  featureTourIndex=0;
+  renderFeatureTour();
+  document.getElementById('featureTour').classList.add('show');
+}
+function moveFeatureTour(delta){
+  const next=featureTourIndex+delta;
+  if(next<0)return;
+  if(next>=featureTourSteps.length){closeFeatureTour(false);return}
+  featureTourIndex=next;
+  renderFeatureTour();
+}
+function closeFeatureTour(skipped){
+  document.getElementById('featureTour').classList.remove('show');
+  try{localStorage.setItem('gl_feature_tour_seen_v1','1')}catch(e){}
+  if(!skipped && featureTourIndex===featureTourSteps.length-1) toast('系統功能介紹已完成；可隨時點選「功能介紹」再次查看');
+}
+
+seedMigration();persist();renderAll();loadSettings();
+try{if(localStorage.getItem("gl_feature_tour_seen_v1")!=="1")startFeatureTour()}catch(e){startFeatureTour()}
+</script>
+</body>
+</html>
